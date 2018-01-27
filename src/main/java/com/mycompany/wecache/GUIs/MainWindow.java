@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 /**
@@ -23,6 +24,9 @@ import javax.swing.JLabel;
 public class MainWindow extends javax.swing.JFrame
 {
     
+    JFrame searchWindow;
+    JFrame submitWindow;
+    JFrame printWindow;
     StaticMap map;
 
     /**
@@ -34,7 +38,7 @@ public class MainWindow extends javax.swing.JFrame
         initComponents();
         
         
-        GeoPoint test = new GeoPoint("Dildo, Canada");
+        GeoPoint test = new GeoPoint("3428 Grimes Ranch Rd., Austin, TX");
         
         BufferedImage image = MapFetcher.fetchMap(test, panel_Map.getSize());
         
@@ -55,6 +59,9 @@ public class MainWindow extends javax.swing.JFrame
     private void initComponents() {
 
         panel_Map = new javax.swing.JPanel();
+        button_Search = new javax.swing.JButton();
+        button_Submit = new javax.swing.JButton();
+        button_Print = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -73,6 +80,27 @@ public class MainWindow extends javax.swing.JFrame
             .addGap(0, 640, Short.MAX_VALUE)
         );
 
+        button_Search.setText("Search for Caches");
+        button_Search.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_SearchActionPerformed(evt);
+            }
+        });
+
+        button_Submit.setText("Submit Cache");
+        button_Submit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_SubmitActionPerformed(evt);
+            }
+        });
+
+        button_Print.setText("Print Map");
+        button_Print.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_PrintActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -80,18 +108,58 @@ public class MainWindow extends javax.swing.JFrame
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(panel_Map, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(354, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(button_Search, javax.swing.GroupLayout.DEFAULT_SIZE, 342, Short.MAX_VALUE)
+                    .addComponent(button_Submit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(button_Print, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(panel_Map, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(button_Search, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(button_Print, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(button_Submit, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(panel_Map, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void button_PrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_PrintActionPerformed
+        
+        //Placeholder
+        
+    }//GEN-LAST:event_button_PrintActionPerformed
+
+    private void button_SearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_SearchActionPerformed
+        
+        if (searchWindow != null)
+        {
+            searchWindow.dispose();
+        }
+        
+        searchWindow = new CacheSearchWindow();
+        
+    }//GEN-LAST:event_button_SearchActionPerformed
+
+    private void button_SubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_SubmitActionPerformed
+        
+        if (submitWindow != null)
+        {
+            submitWindow.dispose();
+        }
+        
+        submitWindow = new CacheSubmitWindow();
+        
+    }//GEN-LAST:event_button_SubmitActionPerformed
 
     /**
      * @param args the command line arguments
@@ -135,6 +203,9 @@ public class MainWindow extends javax.swing.JFrame
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton button_Print;
+    private javax.swing.JButton button_Search;
+    private javax.swing.JButton button_Submit;
     private javax.swing.JPanel panel_Map;
     // End of variables declaration//GEN-END:variables
 }

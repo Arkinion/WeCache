@@ -27,7 +27,6 @@ public class MapFetcher
     public static BufferedImage fetchMap(GeoPoint place, Dimension size)
     {
         StaticMap map = new StaticMap();
-        //load(map.toURL());
         
         map.key("AIzaSyBiUqnWbs1oB299MMEZs-kPgFgc1CvRBMA");
         map.center(place);
