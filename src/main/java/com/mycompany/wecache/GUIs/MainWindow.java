@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package com.mycompany.wecache;
+package com.mycompany.wecache.GUIs;
 
 import com.mycompany.wecache.Info.MapFetcher;
 import com.mypopsy.maps.StaticMap;
@@ -30,19 +30,18 @@ public class MainWindow extends javax.swing.JFrame
      */
     public MainWindow() throws IOException
     {
+        
         initComponents();
         
         
         GeoPoint test = new GeoPoint("Dildo, Canada");
         
-        BufferedImage image = MapFetcher.fetchMap(test);
+        BufferedImage image = MapFetcher.fetchMap(test, panel_Map.getSize());
         
         JLabel label = new JLabel(new ImageIcon(image));
-        label.setBounds(panel_Map.getBounds());
+        label.setSize(panel_Map.getSize());
+        
         panel_Map.add(label);
-        //label.setIcon(new ImageIcon(image));
-        
-        
         
     }
 
@@ -58,17 +57,20 @@ public class MainWindow extends javax.swing.JFrame
         panel_Map = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(600, 400));
+        setResizable(false);
+
+        panel_Map.setBackground(new java.awt.Color(0, 100, 130));
+        panel_Map.setPreferredSize(new java.awt.Dimension(640, 640));
 
         javax.swing.GroupLayout panel_MapLayout = new javax.swing.GroupLayout(panel_Map);
         panel_Map.setLayout(panel_MapLayout);
         panel_MapLayout.setHorizontalGroup(
             panel_MapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 380, Short.MAX_VALUE)
+            .addGap(0, 640, Short.MAX_VALUE)
         );
         panel_MapLayout.setVerticalGroup(
             panel_MapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 380, Short.MAX_VALUE)
+            .addGap(0, 640, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -78,14 +80,14 @@ public class MainWindow extends javax.swing.JFrame
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(panel_Map, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(232, Short.MAX_VALUE))
+                .addContainerGap(354, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(panel_Map, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(panel_Map, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();

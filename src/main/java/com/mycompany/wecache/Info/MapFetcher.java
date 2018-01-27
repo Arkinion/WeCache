@@ -7,6 +7,7 @@ package com.mycompany.wecache.Info;
 
 import com.mypopsy.maps.StaticMap;
 import com.mypopsy.maps.StaticMap.GeoPoint;
+import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 import javax.imageio.ImageIO;
@@ -23,14 +24,14 @@ public class MapFetcher
         throw new Exception("MapFetcher cannot be instantiated.");
     }
     
-    public static BufferedImage fetchMap(GeoPoint g)
+    public static BufferedImage fetchMap(GeoPoint place, Dimension size)
     {
         StaticMap map = new StaticMap();
         //load(map.toURL());
         
         map.key("AIzaSyBiUqnWbs1oB299MMEZs-kPgFgc1CvRBMA");
-        map.center(g);
-        map.size(380, 380);
+        map.center(place);
+        map.size(size.width, size.height);
         map.type(StaticMap.Type.TERRAIN);
         
         try
