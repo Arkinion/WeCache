@@ -192,10 +192,14 @@ public class MainWindow extends javax.swing.JFrame
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable()
         {
-            public void run() {
-                try {
+            public void run()
+            {
+                try
+                {
                     new MainWindow().setVisible(true);
-                } catch (IOException ex) {
+                }
+                catch (IOException ex)
+                {
                     Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }

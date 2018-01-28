@@ -5,8 +5,6 @@
  */
 package com.mycompany.wecache.GUIs;
 
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import javax.swing.DefaultListModel;
 
 /**
