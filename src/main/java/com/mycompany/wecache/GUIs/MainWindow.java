@@ -6,11 +6,15 @@
 
 package com.mycompany.wecache.GUIs;
 
+import com.mycompany.wecache.BaseClasses.Cache;
+import com.mycompany.wecache.Info.JsonHandler;
 import com.mycompany.wecache.Info.MapFetcher;
 import com.mypopsy.maps.StaticMap;
 import com.mypopsy.maps.StaticMap.GeoPoint;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -135,7 +139,13 @@ public class MainWindow extends javax.swing.JFrame
 
     private void button_PrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_PrintActionPerformed
         
-        //Placeholder
+        ArrayList<Cache> test = new ArrayList<Cache>();
+        
+        test.add(new Cache(new GeoPoint("Dildo, Canada")));
+        test.add(new Cache(new GeoPoint("3428 Grimes Ranch Rd., Austin, TX")));
+        test.add(new Cache(new GeoPoint("New York City")));
+        
+        JsonHandler.storeAvailableCaches(test);
         
     }//GEN-LAST:event_button_PrintActionPerformed
 
