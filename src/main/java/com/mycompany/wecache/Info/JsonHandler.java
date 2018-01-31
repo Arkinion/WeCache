@@ -33,11 +33,15 @@ public class JsonHandler
         
         try
         {
-            String path = "U:\\My Documents\\Nicholas_CompSci3\\WeCacheRepository\\WeCache\\src\\main\\java\\com\\mycompany\\wecache\\Caches\\Available_Caches.json";
-            Writer writer = new OutputStreamWriter(new FileOutputStream(path), "UTF-8");
+            String path = "src\\main\\java\\com\\mycompany\\wecache\\Caches\\";
+            
+            Writer writer = new OutputStreamWriter(new FileOutputStream(path + "Available_Caches.json"), "UTF-8");
             
             Gson json = new GsonBuilder().setPrettyPrinting().create();
+            
             json.toJson(available, writer);
+            writer.flush();
+            writer.close();
             
         }
         catch (Exception e)
@@ -52,8 +56,8 @@ public class JsonHandler
         
         try
         {
-            String path = System.getenv("APPDATA") + "/WeCache/Caches/Available_Caches.json";
-            Reader reader = new InputStreamReader(JsonHandler.class.getResourceAsStream(path), "UTF-8");
+            String path = "src\\main\\java\\com\\mycompany\\wecache\\Caches\\";
+            Reader reader = new InputStreamReader(JsonHandler.class.getResourceAsStream(path + "Available_Caches.json"), "UTF-8");
             
             Gson json = new GsonBuilder().setPrettyPrinting().create();
             return json.fromJson(reader, new TypeToken<ArrayList<Cache>>() {}.getType());
@@ -73,8 +77,8 @@ public class JsonHandler
         
         try
         {
-            String path = System.getenv("APPDATA") + "/WeCache/Caches/Waitlist_Caches.json";
-            Writer writer = new OutputStreamWriter(new FileOutputStream(path), "UTF-8");
+            String path = "src\\main\\java\\com\\mycompany\\wecache\\Caches\\";
+            Writer writer = new OutputStreamWriter(new FileOutputStream(path + "Waitlist_Caches.json"), "UTF-8");
             
             Gson json = new GsonBuilder().setPrettyPrinting().create();
             json.toJson(waitlist, writer);
@@ -92,8 +96,8 @@ public class JsonHandler
         
         try
         {
-            String path = System.getenv("APPDATA") + "/WeCache/Caches/Waitlist_Caches.json";
-            Reader reader = new InputStreamReader(JsonHandler.class.getResourceAsStream(path), "UTF-8");
+            String path = "src\\main\\java\\com\\mycompany\\wecache\\Caches\\";
+            Reader reader = new InputStreamReader(JsonHandler.class.getResourceAsStream(path + "Waitlist_Caches.json"), "UTF-8");
             
             Gson json = new GsonBuilder().setPrettyPrinting().create();
             return json.fromJson(reader, new TypeToken<ArrayList<Cache>>() {}.getType());
