@@ -14,7 +14,6 @@ import com.mypopsy.maps.StaticMap.GeoPoint;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -145,7 +144,9 @@ public class MainWindow extends javax.swing.JFrame
         test.add(new Cache(new GeoPoint("3428 Grimes Ranch Rd., Austin, TX")));
         test.add(new Cache(new GeoPoint("New York City")));
         
-        JsonHandler.storeAvailableCaches(test);
+        JsonHandler.storeWaitlistCaches(test);
+        
+        System.out.println(JsonHandler.retrieveWaitlistCaches());
         
     }//GEN-LAST:event_button_PrintActionPerformed
 

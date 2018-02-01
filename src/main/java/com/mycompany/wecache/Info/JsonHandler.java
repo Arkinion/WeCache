@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.mycompany.wecache.BaseClasses.Cache;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -41,6 +42,7 @@ public class JsonHandler
             
             json.toJson(available, writer);
             writer.flush();
+            
             writer.close();
             
         }
@@ -57,9 +59,10 @@ public class JsonHandler
         try
         {
             String path = "src\\main\\java\\com\\mycompany\\wecache\\Caches\\";
-            Reader reader = new InputStreamReader(JsonHandler.class.getResourceAsStream(path + "Available_Caches.json"), "UTF-8");
+            Reader reader = new InputStreamReader(new FileInputStream(path + "Available_Caches.json"), "UTF-8");
             
             Gson json = new GsonBuilder().setPrettyPrinting().create();
+            
             return json.fromJson(reader, new TypeToken<ArrayList<Cache>>() {}.getType());
             
         }
@@ -81,7 +84,11 @@ public class JsonHandler
             Writer writer = new OutputStreamWriter(new FileOutputStream(path + "Waitlist_Caches.json"), "UTF-8");
             
             Gson json = new GsonBuilder().setPrettyPrinting().create();
+            
             json.toJson(waitlist, writer);
+            writer.flush();
+            
+            writer.close();
             
         }
         catch (Exception e)
@@ -97,7 +104,7 @@ public class JsonHandler
         try
         {
             String path = "src\\main\\java\\com\\mycompany\\wecache\\Caches\\";
-            Reader reader = new InputStreamReader(JsonHandler.class.getResourceAsStream(path + "Waitlist_Caches.json"), "UTF-8");
+            Reader reader = new InputStreamReader(new FileInputStream(path + "Waitlist_Caches.json"), "UTF-8");
             
             Gson json = new GsonBuilder().setPrettyPrinting().create();
             return json.fromJson(reader, new TypeToken<ArrayList<Cache>>() {}.getType());

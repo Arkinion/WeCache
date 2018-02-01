@@ -17,6 +17,11 @@ public class Cache implements Serializable
     
     private GeoPoint location;
     
+    public Cache()
+    {
+        location = new GeoPoint("");
+    }
+    
     public Cache(GeoPoint l)
     {
         location = l;
@@ -25,6 +30,11 @@ public class Cache implements Serializable
     public GeoPoint getLocation()
     {
         return location;
+    }
+    
+    public String toString()
+    {
+        return location.toString();
     }
     
 }
