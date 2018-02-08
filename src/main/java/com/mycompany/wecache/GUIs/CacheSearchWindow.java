@@ -5,7 +5,12 @@
  */
 package com.mycompany.wecache.GUIs;
 
-import java.util.HashMap;
+import com.mycompany.wecache.BaseClasses.Cache;
+import com.mycompany.wecache.Info.JsonHandler;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import javax.swing.DefaultListModel;
 
 
 /**
@@ -15,8 +20,9 @@ import java.util.HashMap;
 public class CacheSearchWindow extends javax.swing.JFrame
 {
     
-    HashMap caches;
-    HashMap waitlist;
+    Cache selectedCache;
+    HashSet<Cache> caches;
+    HashSet<Cache> waitlist;
 
     /**
      * Creates new form CacheSearchWindow
@@ -27,7 +33,10 @@ public class CacheSearchWindow extends javax.swing.JFrame
         initComponents();
         
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        caches = new HashSet();
+        waitlist = new HashSet();
         
+        updateCaches();
         
         
         this.setVisible(true);
@@ -45,36 +54,46 @@ public class CacheSearchWindow extends javax.swing.JFrame
 
         jScrollPane1 = new javax.swing.JScrollPane();
         list_Cache = new javax.swing.JList<String>();
-        checkBox_waitlist = new javax.swing.JCheckBox();
-        jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        checkBox_Waitlist = new javax.swing.JCheckBox();
+        label_Address = new javax.swing.JLabel();
+        button_SelectCache = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
+        label_LatLong = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
         jTextField3 = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
+        label_SearchRadius = new javax.swing.JLabel();
         jTextField4 = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        button_Search = new javax.swing.JButton();
+        button_ClearFilter = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
+        list_Cache.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                list_CacheValueChanged(evt);
+            }
+        });
         jScrollPane1.setViewportView(list_Cache);
 
-        checkBox_waitlist.setText("View Waitlist Caches");
+        checkBox_Waitlist.setText("View Waitlist Caches");
+        checkBox_Waitlist.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                checkBox_WaitlistStateChanged(evt);
+            }
+        });
 
-        jLabel1.setText("Address");
+        label_Address.setText("Address");
 
-        jButton1.setText("Select Cache");
+        button_SelectCache.setText("Select Cache");
 
-        jLabel2.setText("Lat/Long Coordinates");
+        label_LatLong.setText("Lat/Long Coordinates");
 
-        jLabel3.setText("Search Radius");
+        label_SearchRadius.setText("Search Radius");
 
-        jButton2.setText("Search");
+        button_Search.setText("Search");
 
-        jButton3.setText("Clear Filter");
+        button_ClearFilter.setText("Clear Filter");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -85,12 +104,12 @@ public class CacheSearchWindow extends javax.swing.JFrame
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(checkBox_waitlist, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(checkBox_Waitlist, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(label_Address, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(button_SelectCache, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(label_LatLong, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jTextField4)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(button_Search, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -98,9 +117,9 @@ public class CacheSearchWindow extends javax.swing.JFrame
                                 .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel3))
+                            .addComponent(label_SearchRadius))
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(button_ClearFilter, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -109,27 +128,27 @@ public class CacheSearchWindow extends javax.swing.JFrame
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(checkBox_waitlist)
+                        .addComponent(checkBox_Waitlist)
                         .addGap(65, 65, 65)
-                        .addComponent(jLabel1)
+                        .addComponent(label_Address)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel2)
+                        .addComponent(label_LatLong)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel3)
+                        .addComponent(label_SearchRadius)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton2)
+                        .addComponent(button_Search)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton3)
+                        .addComponent(button_ClearFilter)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(button_SelectCache, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 563, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -137,21 +156,84 @@ public class CacheSearchWindow extends javax.swing.JFrame
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void checkBox_WaitlistStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_checkBox_WaitlistStateChanged
+        updateCaches();
+    }//GEN-LAST:event_checkBox_WaitlistStateChanged
+
+    private void list_CacheValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_list_CacheValueChanged
+        String index = list_Cache.getSelectedValue();
+        
+        if (checkBox_Waitlist.isSelected())
+        {
+            Iterator<Cache> values = waitlist.iterator();
+            
+            while(values.hasNext())
+            
+            selectedCache = values.next();
+        }
+        else
+        {
+            Iterator<Cache> values = caches.iterator();
+            
+            for (int i = 0; i < index; i++)
+            {
+                values.next();
+            }
+            
+            selectedCache = values.next();
+        }
+        
+        System.out.println(selectedCache);
+    }//GEN-LAST:event_list_CacheValueChanged
+
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JCheckBox checkBox_waitlist;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JButton button_ClearFilter;
+    private javax.swing.JButton button_Search;
+    private javax.swing.JButton button_SelectCache;
+    private javax.swing.JCheckBox checkBox_Waitlist;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
+    private javax.swing.JLabel label_Address;
+    private javax.swing.JLabel label_LatLong;
+    private javax.swing.JLabel label_SearchRadius;
     private javax.swing.JList<String> list_Cache;
     // End of variables declaration//GEN-END:variables
+
+    private void updateCaches()
+    {
+        if (checkBox_Waitlist.isSelected())
+        {
+            waitlist = new HashSet();
+            DefaultListModel model = new DefaultListModel();
+            List<Cache> newCaches = JsonHandler.retrieveWaitlistCaches();
+            
+            for (Cache c : newCaches)
+            {
+                waitlist.add(c);
+                model.addElement(c);
+            }
+            
+            list_Cache.setModel(model);
+            
+        }
+        else
+        {
+            caches = new HashSet();
+            DefaultListModel model = new DefaultListModel();
+            List<Cache> newCaches = JsonHandler.retrieveAvailableCaches();
+            
+            for (Cache c : newCaches)
+            {
+                caches.add(c);
+                model.addElement(c);
+            }
+            
+            list_Cache.setModel(model);
+        }
+    }
 }

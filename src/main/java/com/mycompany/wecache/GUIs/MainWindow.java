@@ -143,10 +143,11 @@ public class MainWindow extends javax.swing.JFrame
         test.add(new Cache(new GeoPoint("Dildo, Canada")));
         test.add(new Cache(new GeoPoint("3428 Grimes Ranch Rd., Austin, TX")));
         test.add(new Cache(new GeoPoint("New York City")));
+        test.add(new Cache(new GeoPoint("Chicago, Illinois")));
         
-        JsonHandler.storeWaitlistCaches(test);
+        JsonHandler.storeAvailableCaches(test);
         
-        System.out.println(JsonHandler.retrieveWaitlistCaches());
+        System.out.println(JsonHandler.retrieveAvailableCaches());
         
     }//GEN-LAST:event_button_PrintActionPerformed
 
