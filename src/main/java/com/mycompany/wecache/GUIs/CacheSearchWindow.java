@@ -161,29 +161,35 @@ public class CacheSearchWindow extends javax.swing.JFrame
     }//GEN-LAST:event_checkBox_WaitlistStateChanged
 
     private void list_CacheValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_list_CacheValueChanged
-        String index = list_Cache.getSelectedValue();
+        Object name = list_Cache.getSelectedValue();
+        
+        if (name == null)
+        {
+            return;
+        }
         
         if (checkBox_Waitlist.isSelected())
         {
             Iterator<Cache> values = waitlist.iterator();
-            
-            while(values.hasNext())
-            
             selectedCache = values.next();
+            
+            while (values.hasNext() && !selectedCache.toString().equals(name.toString()))
+            {
+                selectedCache = values.next();
+            }
         }
         else
         {
             Iterator<Cache> values = caches.iterator();
-            
-            for (int i = 0; i < index; i++)
-            {
-                values.next();
-            }
-            
             selectedCache = values.next();
+            
+            while (values.hasNext() && !selectedCache.toString().equals(name.toString()))
+            {
+                selectedCache = values.next();
+            }
         }
         
-        System.out.println(selectedCache);
+        //System.out.println(selectedCache);
     }//GEN-LAST:event_list_CacheValueChanged
 
     
