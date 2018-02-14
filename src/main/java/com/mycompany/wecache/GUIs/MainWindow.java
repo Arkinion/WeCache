@@ -27,10 +27,12 @@ import javax.swing.JLabel;
 public class MainWindow extends javax.swing.JFrame
 {
     
+    static MainWindow instance;
     JFrame searchWindow;
     JFrame submitWindow;
     JFrame printWindow;
     StaticMap map;
+    Cache selectedCache;
 
     /**
      * Creates new form MainWindow
@@ -40,15 +42,12 @@ public class MainWindow extends javax.swing.JFrame
         
         initComponents();
         
+        instance = this;
         
+        map = new StaticMap();
         GeoPoint test = new GeoPoint("3428 Grimes Ranch Rd., Austin, TX");
         
-        BufferedImage image = MapFetcher.fetchMap(test, panel_Map.getSize());
-        
-        JLabel label = new JLabel(new ImageIcon(image));
-        label.setSize(panel_Map.getSize());
-        
-        panel_Map.add(label);
+        updateMap(test);
         
     }
 
@@ -224,4 +223,27 @@ public class MainWindow extends javax.swing.JFrame
     private javax.swing.JButton button_Submit;
     private javax.swing.JPanel panel_Map;
     // End of variables declaration//GEN-END:variables
+
+    public void changeCache(Cache c)
+    {
+        selectedCache = c;
+        
+        updateMap(c.getLocation());
+    }
+    
+    private void updateMap(GeoPoint geo)
+    {
+        
+        map.center(geo);
+        
+        BufferedImage image = MapFetcher.fetchMap(geo, panel_Map.getSize());
+        
+        JLabel label = new JLabel(new ImageIcon(image));
+        label.setSize(panel_Map.getSize());
+        
+        panel_Map.removeAll();
+        panel_Map.add(label);
+        
+    }
+
 }

@@ -7,17 +7,20 @@ package com.mycompany.wecache.GUIs;
 
 import com.mycompany.wecache.BaseClasses.Cache;
 import com.mycompany.wecache.Info.JsonHandler;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
+import javax.swing.ListModel;
 
 
 /**
  *
  * @author User
  */
-public class CacheSearchWindow extends javax.swing.JFrame
+public class CacheSearchWindow extends JFrame
 {
     
     Cache selectedCache;
@@ -37,7 +40,6 @@ public class CacheSearchWindow extends javax.swing.JFrame
         waitlist = new HashSet();
         
         updateCaches();
-        
         
         this.setVisible(true);
         
@@ -86,6 +88,11 @@ public class CacheSearchWindow extends javax.swing.JFrame
         label_Address.setText("Address");
 
         button_SelectCache.setText("Select Cache");
+        button_SelectCache.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_SelectCacheActionPerformed(evt);
+            }
+        });
 
         label_LatLong.setText("Lat/Long Coordinates");
 
@@ -163,34 +170,39 @@ public class CacheSearchWindow extends javax.swing.JFrame
     private void list_CacheValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_list_CacheValueChanged
         Object name = list_Cache.getSelectedValue();
         
-        if (name == null)
+        if (name != null)
         {
-            return;
-        }
-        
-        if (checkBox_Waitlist.isSelected())
-        {
-            Iterator<Cache> values = waitlist.iterator();
-            selectedCache = values.next();
-            
-            while (values.hasNext() && !selectedCache.toString().equals(name.toString()))
+            if (checkBox_Waitlist.isSelected())
             {
+                Iterator<Cache> values = waitlist.iterator();
                 selectedCache = values.next();
+
+                while (values.hasNext() && !selectedCache.toString().equals(name.toString()))
+                {
+                    selectedCache = values.next();
+                }
             }
-        }
-        else
-        {
-            Iterator<Cache> values = caches.iterator();
-            selectedCache = values.next();
-            
-            while (values.hasNext() && !selectedCache.toString().equals(name.toString()))
+            else
             {
+                Iterator<Cache> values = caches.iterator();
                 selectedCache = values.next();
+
+                while (values.hasNext() && !selectedCache.toString().equals(name.toString()))
+                {
+                    selectedCache = values.next();
+                }
             }
         }
         
         //System.out.println(selectedCache);
     }//GEN-LAST:event_list_CacheValueChanged
+
+    private void button_SelectCacheActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_SelectCacheActionPerformed
+        if (selectedCache != null)
+        {
+            MainWindow.
+        }
+    }//GEN-LAST:event_button_SelectCacheActionPerformed
 
     
 
@@ -241,5 +253,30 @@ public class CacheSearchWindow extends javax.swing.JFrame
             
             list_Cache.setModel(model);
         }
+        
+        sortCaches();
     }
+    
+    private void sortCaches()
+    {
+        ListModel currentModel = list_Cache.getModel();
+        DefaultListModel newModel = new DefaultListModel();
+        
+        ArrayList<Object> sorter = new ArrayList<Object>();
+        
+        for (int i = 0; i < currentModel.getSize(); i++)
+        {
+            sorter.add(currentModel.getElementAt(i));
+        }
+        
+        sorter.sort(null);
+        
+        for (Object o : sorter)
+        {
+            newModel.addElement(o);
+        }
+        
+        list_Cache.setModel(newModel);
+    }
+    
 }

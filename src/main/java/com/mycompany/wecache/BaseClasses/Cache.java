@@ -12,7 +12,7 @@ import java.io.Serializable;
  *
  * @author User
  */
-public class Cache implements Serializable
+public class Cache implements Comparable, Serializable
 {
     
     private GeoPoint location;
@@ -32,9 +32,16 @@ public class Cache implements Serializable
         return location;
     }
     
+    @Override
     public String toString()
     {
         return location.toString();
+    }
+
+    @Override
+    public int compareTo(Object o)
+    {
+        return toString().compareTo(o.toString());
     }
     
 }
