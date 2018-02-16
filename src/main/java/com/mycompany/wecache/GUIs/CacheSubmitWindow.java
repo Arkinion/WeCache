@@ -5,6 +5,9 @@
  */
 package com.mycompany.wecache.GUIs;
 
+import com.mypopsy.maps.StaticMap.GeoPoint;
+import com.google.maps.GeocodingApi;
+
 /**
  *
  * @author User
@@ -106,7 +109,27 @@ public class CacheSubmitWindow extends javax.swing.JFrame
     }// </editor-fold>//GEN-END:initComponents
 
     private void button_SubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_SubmitActionPerformed
-        // TODO add your handling code here:
+        
+        String address = textField_Address.getText();
+        double latitude;
+        double longitude;
+        GeoPoint location;
+        
+        try
+        {
+            latitude = Double.parseDouble(textField_Latitude.getText());
+            longitude = Double.parseDouble(textField_Longitude.getText());
+        }
+        catch (Exception e)
+        {
+            System.out.println("Error parsing latitude and/or longitude.\n" + e);
+            latitude = 0;
+            longitude = 0;
+            location = new GeoPoint(address);
+        }
+        
+        
+        
     }//GEN-LAST:event_button_SubmitActionPerformed
 
     
