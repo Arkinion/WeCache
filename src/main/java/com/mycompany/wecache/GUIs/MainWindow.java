@@ -244,6 +244,13 @@ public class MainWindow extends javax.swing.JFrame
         panel_Map.removeAll();
         panel_Map.add(label);
         
+        repaint();
+        
+    }
+    
+    public static MainWindow getSingleton()
+    {
+        return instance;
     }
 
 }

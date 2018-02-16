@@ -200,7 +200,7 @@ public class CacheSearchWindow extends JFrame
     private void button_SelectCacheActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_SelectCacheActionPerformed
         if (selectedCache != null)
         {
-            MainWindow.
+            MainWindow.getSingleton().changeCache(selectedCache);
         }
     }//GEN-LAST:event_button_SelectCacheActionPerformed
 
