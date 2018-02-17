@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import com.google.maps.GeoApiContext;
 
 /**
  *
@@ -27,15 +28,19 @@ import javax.swing.JLabel;
 public class MainWindow extends javax.swing.JFrame
 {
     
-    static MainWindow instance;
-    JFrame searchWindow;
-    JFrame submitWindow;
-    JFrame printWindow;
-    StaticMap map;
-    Cache selectedCache;
+    private static final GeoApiContext geoContext = new GeoApiContext.Builder()
+            .apiKey("AIzaSyCcP9ALyWPxewChGqXYuBsVdRG4NoREkDw")
+            .build();
+    private static MainWindow instance;
+    private JFrame searchWindow;
+    private JFrame submitWindow;
+    private JFrame printWindow;
+    private static StaticMap map;
+    private Cache selectedCache;
 
     /**
      * Creates new form MainWindow
+     * @throws java.io.IOException
      */
     public MainWindow() throws IOException
     {
@@ -43,11 +48,13 @@ public class MainWindow extends javax.swing.JFrame
         initComponents();
         
         instance = this;
+        selectedCache = new Cache();
         
         map = new StaticMap();
-        GeoPoint test = new GeoPoint("3428 Grimes Ranch Rd., Austin, TX");
+        GeoPoint test = new GeoPoint("Vandegrift High School, Austin, TX");
         
         updateMap(test);
+        
         
     }
 
@@ -251,6 +258,11 @@ public class MainWindow extends javax.swing.JFrame
     public static MainWindow getSingleton()
     {
         return instance;
+    }
+    
+    public static GeoApiContext getGeoContext()
+    {
+        return geoContext;
     }
 
 }

@@ -6,6 +6,8 @@
 package com.mycompany.wecache.GUIs;
 
 import com.mypopsy.maps.StaticMap.GeoPoint;
+import com.google.maps.GeoApiContext;
+import com.google.maps.GeocodingApiRequest;
 import com.google.maps.GeocodingApi;
 
 /**
@@ -115,20 +117,51 @@ public class CacheSubmitWindow extends javax.swing.JFrame
         double longitude;
         GeoPoint location;
         
-        try
+        
+        if (!(textField_Latitude.getText().equals("") || textField_Longitude.getText().equals("")))
         {
-            latitude = Double.parseDouble(textField_Latitude.getText());
-            longitude = Double.parseDouble(textField_Longitude.getText());
+            try
+            {
+                latitude = Double.parseDouble(textField_Latitude.getText());
+                longitude = Double.parseDouble(textField_Longitude.getText());
+                
+                if (address.equals(""))
+                {
+                    address = locate(latitude, longitude);
+                    
+                    location = new GeoPoint(latitude, longitude, address);
+                }
+                else
+                {
+                    location = new GeoPoint(latitude, longitude, address);
+                }
+                
+            }
+            catch (Exception e)
+            {
+                System.out.println("Error parsing latitude and/or longitude.\n" + e);
+                latitude = 0;
+                longitude = 0;
+                if (address.equals(""))
+                {
+                    System.out.println("Improper input.");
+                    return;
+                }
+                else
+                {
+                    location = new GeoPoint(address);
+                }
+            }
         }
-        catch (Exception e)
+        else if (address.equals(""))
         {
-            System.out.println("Error parsing latitude and/or longitude.\n" + e);
-            latitude = 0;
-            longitude = 0;
+            System.out.println("No inputs.");
+            return;
+        }
+        else
+        {
             location = new GeoPoint(address);
         }
-        
-        
         
     }//GEN-LAST:event_button_SubmitActionPerformed
 
@@ -143,4 +176,17 @@ public class CacheSubmitWindow extends javax.swing.JFrame
     private javax.swing.JTextField textField_Latitude;
     private javax.swing.JTextField textField_Longitude;
     // End of variables declaration//GEN-END:variables
+
+    private String locate(double latitude, double longitude)
+    {
+        GeoApiContext context = MainWindow.getGeoContext();
+        GeocodingApiRequest request = GeocodingApi.newRequest(context);
+        GeocodingApi api;
+        
+        // Check https://www.programcreek.com/java-api-examples/index.php?api=com.google.maps.GeoApiContext
+        
+        // Check https://www.programcreek.com/java-api-examples/?api=com.google.maps.GeocodingApi
+        
+        return "";
+    }
 }
