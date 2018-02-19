@@ -9,6 +9,11 @@ import com.mypopsy.maps.StaticMap.GeoPoint;
 import com.google.maps.GeoApiContext;
 import com.google.maps.GeocodingApiRequest;
 import com.google.maps.GeocodingApi;
+import com.google.maps.model.GeocodingResult;
+import com.google.maps.model.LatLng;
+import com.mycompany.wecache.BaseClasses.Cache;
+import java.util.Arrays;
+import java.util.function.Consumer;
 
 /**
  *
@@ -163,6 +168,8 @@ public class CacheSubmitWindow extends javax.swing.JFrame
             location = new GeoPoint(address);
         }
         
+        MainWindow.getSingleton().changeCache(new Cache(location));
+        
     }//GEN-LAST:event_button_SubmitActionPerformed
 
     
@@ -179,9 +186,42 @@ public class CacheSubmitWindow extends javax.swing.JFrame
 
     private String locate(double latitude, double longitude)
     {
+        LatLng coords = new LatLng(latitude, longitude);
         GeoApiContext context = MainWindow.getGeoContext();
-        GeocodingApiRequest request = GeocodingApi.newRequest(context);
-        GeocodingApi api;
+        GeocodingResult[] results;
+        String output = "";
+        
+        try
+        {
+            results = GeocodingApi.reverseGeocode(context, coords).await();
+            
+            if (results != null || results.length > 0)
+            {
+                output = results[0].formattedAddress;
+                
+                for (GeocodingResult r : results)
+                {
+                    if ((r.formattedAddress.split(",").length > output.split(",").length)
+                            || (r.formattedAddress.length() > output.length()
+                                && r.formattedAddress.split(",").length == output.split(",").length))
+                    {
+                        output = r.formattedAddress;
+                    }
+                }
+
+                System.out.println(output);
+                return output;
+            }
+            else
+            {
+                System.out.println("Location not found.");
+                return "";
+            }
+        }
+        catch (Exception E)
+        {
+            System.out.println(E);
+        }
         
         // Check https://www.programcreek.com/java-api-examples/index.php?api=com.google.maps.GeoApiContext
         
