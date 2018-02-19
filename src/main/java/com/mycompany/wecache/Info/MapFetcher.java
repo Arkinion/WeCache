@@ -30,8 +30,10 @@ public class MapFetcher
         
         map.key("AIzaSyBiUqnWbs1oB299MMEZs-kPgFgc1CvRBMA");
         map.center(place);
+        map.marker(place);
         map.size(size.width, size.height);
         map.type(StaticMap.Type.TERRAIN);
+        map.zoom(15);
         
         try
         {

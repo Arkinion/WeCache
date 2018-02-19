@@ -40,7 +40,7 @@ public class JsonHandler
             
             Gson json = new GsonBuilder().setPrettyPrinting().create();
             
-            json.toJson(available, writer);
+            json.toJson(merge(retrieveAvailableCaches(), available), writer);
             writer.flush();
             
             writer.close();
@@ -85,7 +85,7 @@ public class JsonHandler
             
             Gson json = new GsonBuilder().setPrettyPrinting().create();
             
-            json.toJson(waitlist, writer);
+            json.toJson(merge(retrieveWaitlistCaches(), waitlist), writer);
             writer.flush();
             
             writer.close();
@@ -116,6 +116,20 @@ public class JsonHandler
         }
         
         return null;
+    }
+    
+    private static ArrayList<Cache> merge(ArrayList<Cache> list1, ArrayList<Cache> list2)
+    {
+        
+        for (Cache c : list2)
+        {
+            list1.add(c);
+        }
+        
+        list1.sort(null);
+        
+        return list1;
+        
     }
     
 }

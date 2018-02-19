@@ -7,13 +7,11 @@ package com.mycompany.wecache.GUIs;
 
 import com.mycompany.wecache.BaseClasses.Cache;
 import com.mycompany.wecache.Info.JsonHandler;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
-import javax.swing.ListModel;
 
 
 /**
@@ -254,29 +252,6 @@ public class CacheSearchWindow extends JFrame
             list_Cache.setModel(model);
         }
         
-        sortCaches();
-    }
-    
-    private void sortCaches()
-    {
-        ListModel currentModel = list_Cache.getModel();
-        DefaultListModel newModel = new DefaultListModel();
-        
-        ArrayList<Object> sorter = new ArrayList<Object>();
-        
-        for (int i = 0; i < currentModel.getSize(); i++)
-        {
-            sorter.add(currentModel.getElementAt(i));
-        }
-        
-        sorter.sort(null);
-        
-        for (Object o : sorter)
-        {
-            newModel.addElement(o);
-        }
-        
-        list_Cache.setModel(newModel);
     }
     
 }
