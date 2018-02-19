@@ -36,6 +36,7 @@ public class MainWindow extends javax.swing.JFrame
     private JFrame submitWindow;
     private JFrame printWindow;
     private static StaticMap map;
+    private int zoom;
     private Cache selectedCache;
 
     /**
@@ -49,12 +50,10 @@ public class MainWindow extends javax.swing.JFrame
         
         instance = this;
         selectedCache = new Cache();
-        
         map = new StaticMap();
-        GeoPoint test = new GeoPoint("Vandegrift High School, Austin, TX");
+        zoom = 15;
         
-        updateMap(test);
-        
+        updateMap();
         
     }
 
@@ -71,6 +70,8 @@ public class MainWindow extends javax.swing.JFrame
         button_Search = new javax.swing.JButton();
         button_Submit = new javax.swing.JButton();
         button_Print = new javax.swing.JButton();
+        button_ZoomIn = new javax.swing.JButton();
+        button_ZoomOut = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -110,6 +111,20 @@ public class MainWindow extends javax.swing.JFrame
             }
         });
 
+        button_ZoomIn.setText("+");
+        button_ZoomIn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_ZoomInActionPerformed(evt);
+            }
+        });
+
+        button_ZoomOut.setText("-");
+        button_ZoomOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_ZoomOutActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -121,7 +136,12 @@ public class MainWindow extends javax.swing.JFrame
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(button_Search, javax.swing.GroupLayout.DEFAULT_SIZE, 342, Short.MAX_VALUE)
                     .addComponent(button_Submit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(button_Print, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(button_ZoomIn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(button_ZoomOut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(button_Print, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -132,7 +152,12 @@ public class MainWindow extends javax.swing.JFrame
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(button_Search, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(button_Print, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(button_Print, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(button_ZoomIn, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(button_ZoomOut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(button_Submit, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(panel_Map, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -178,6 +203,28 @@ public class MainWindow extends javax.swing.JFrame
         submitWindow = new CacheSubmitWindow();
         
     }//GEN-LAST:event_button_SubmitActionPerformed
+
+    private void button_ZoomInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_ZoomInActionPerformed
+        zoom++;
+        
+        if (zoom > 22)
+        {
+            zoom = 22;
+        }
+        
+        updateMap();
+    }//GEN-LAST:event_button_ZoomInActionPerformed
+
+    private void button_ZoomOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_ZoomOutActionPerformed
+        zoom--;
+        
+        if (zoom < 1)
+        {
+            zoom = 1;
+        }
+        
+        updateMap();
+    }//GEN-LAST:event_button_ZoomOutActionPerformed
 
     /**
      * @param args the command line arguments
@@ -228,6 +275,8 @@ public class MainWindow extends javax.swing.JFrame
     private javax.swing.JButton button_Print;
     private javax.swing.JButton button_Search;
     private javax.swing.JButton button_Submit;
+    private javax.swing.JButton button_ZoomIn;
+    private javax.swing.JButton button_ZoomOut;
     private javax.swing.JPanel panel_Map;
     // End of variables declaration//GEN-END:variables
 
@@ -235,15 +284,17 @@ public class MainWindow extends javax.swing.JFrame
     {
         selectedCache = c;
         
-        updateMap(c.getLocation());
+        updateMap();
     }
     
-    private void updateMap(GeoPoint geo)
+    private void updateMap()
     {
+        
+        GeoPoint geo = selectedCache.getLocation();
         
         map.center(geo);
         
-        BufferedImage image = MapFetcher.fetchMap(geo, panel_Map.getSize());
+        BufferedImage image = MapFetcher.fetchMap(geo, panel_Map.getSize(), zoom);
         
         JLabel label = new JLabel(new ImageIcon(image));
         label.setSize(panel_Map.getSize());

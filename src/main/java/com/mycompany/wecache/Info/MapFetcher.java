@@ -24,7 +24,7 @@ public class MapFetcher
         throw new Exception("MapFetcher cannot be instantiated.");
     }
     
-    public static BufferedImage fetchMap(GeoPoint place, Dimension size)
+    public static BufferedImage fetchMap(GeoPoint place, Dimension size, int zoom)
     {
         StaticMap map = new StaticMap();
         
@@ -33,7 +33,7 @@ public class MapFetcher
         map.marker(place);
         map.size(size.width, size.height);
         map.type(StaticMap.Type.TERRAIN);
-        map.zoom(15);
+        map.zoom(zoom);
         
         try
         {
