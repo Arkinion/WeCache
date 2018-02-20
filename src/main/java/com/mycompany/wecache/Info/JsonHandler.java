@@ -145,9 +145,6 @@ public class JsonHandler
     private static ArrayList<Cache> merge(ArrayList<Cache> list1, ArrayList<Cache> list2)
     {
         
-        System.out.println(list1);
-        System.out.println(list2);
-        
         for (Cache c : list2)
         {
             list1.add(c);

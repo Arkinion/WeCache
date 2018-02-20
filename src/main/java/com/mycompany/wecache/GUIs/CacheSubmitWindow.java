@@ -169,7 +169,9 @@ public class CacheSubmitWindow extends javax.swing.JFrame
         }
         else
         {
-            location = new GeoPoint(address);
+            LatLng coords = locate(address);
+            
+            location = new GeoPoint(coords.lat, coords.lng, address);
         }
         
         
@@ -227,7 +229,7 @@ public class CacheSubmitWindow extends javax.swing.JFrame
                 return "";
             }
         }
-        catch (ApiException | IOException | InterruptedException E)
+        catch (Exception E)
         {
             System.out.println(E);
         }
@@ -238,4 +240,38 @@ public class CacheSubmitWindow extends javax.swing.JFrame
         
         return "";
     }
+    
+    public LatLng locate(String address)
+    {
+        GeoApiContext context = MainWindow.getGeoContext();
+        GeocodingResult[] results;
+        
+        try
+        {
+            results = GeocodingApi.geocode(context, address).await();
+            
+            if (results != null || results.length > 0)
+            {
+                
+                for (GeocodingResult r : results)
+                {
+                    System.out.println(r.geometry.location);
+                }
+
+                return results[0].geometry.location;
+            }
+            else
+            {
+                System.out.println("Location not found.");
+                return new LatLng();
+            }
+        }
+        catch (Exception E)
+        {
+            System.out.println(E);
+        }
+        
+        return new LatLng();
+    }
+    
 }
