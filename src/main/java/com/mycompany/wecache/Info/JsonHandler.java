@@ -34,13 +34,15 @@ public class JsonHandler
         
         try
         {
-            String path = "src\\main\\java\\com\\mycompany\\wecache\\Caches\\";
+            ArrayList<Cache> retrieved = retrieveWaitlistCaches();
+            System.out.println("Store Waitlist Retrieval:" + retrieved);
             
-            Writer writer = new OutputStreamWriter(new FileOutputStream(path + "Available_Caches.json"), "UTF-8");
+            String path = "src\\main\\java\\com\\mycompany\\wecache\\Caches\\";
+            Writer writer = new OutputStreamWriter(new FileOutputStream(path + "Waitlist_Caches.json"), "UTF-8");
             
             Gson json = new GsonBuilder().setPrettyPrinting().create();
             
-            json.toJson(merge(retrieveAvailableCaches(), available), writer);
+            json.toJson(merge(retrieved, available), writer);
             writer.flush();
             
             writer.close();
@@ -61,9 +63,18 @@ public class JsonHandler
             String path = "src\\main\\java\\com\\mycompany\\wecache\\Caches\\";
             Reader reader = new InputStreamReader(new FileInputStream(path + "Available_Caches.json"), "UTF-8");
             
-            Gson json = new GsonBuilder().setPrettyPrinting().create();
+            Gson json = new GsonBuilder().create();
             
-            return json.fromJson(reader, new TypeToken<ArrayList<Cache>>() {}.getType());
+            ArrayList<Cache> output = json.fromJson(reader, new TypeToken<ArrayList<Cache>>() {}.getType());
+            
+            if (output != null)
+            {
+                return output;
+            }
+            else
+            {
+                return new ArrayList<Cache>();
+            }
             
         }
         catch (Exception e)
@@ -71,7 +82,7 @@ public class JsonHandler
             System.out.println(e);
         }
         
-        return null;
+        return new ArrayList<Cache>();
         
     }
     
@@ -80,12 +91,15 @@ public class JsonHandler
         
         try
         {
+            
+            ArrayList<Cache> retrieved = retrieveWaitlistCaches();
+            
             String path = "src\\main\\java\\com\\mycompany\\wecache\\Caches\\";
             Writer writer = new OutputStreamWriter(new FileOutputStream(path + "Waitlist_Caches.json"), "UTF-8");
             
             Gson json = new GsonBuilder().setPrettyPrinting().create();
             
-            json.toJson(merge(retrieveWaitlistCaches(), waitlist), writer);
+            json.toJson(merge(retrieved, waitlist), writer);
             writer.flush();
             
             writer.close();
@@ -104,10 +118,20 @@ public class JsonHandler
         try
         {
             String path = "src\\main\\java\\com\\mycompany\\wecache\\Caches\\";
+            
             Reader reader = new InputStreamReader(new FileInputStream(path + "Waitlist_Caches.json"), "UTF-8");
             
-            Gson json = new GsonBuilder().setPrettyPrinting().create();
-            return json.fromJson(reader, new TypeToken<ArrayList<Cache>>() {}.getType());
+            Gson json = new GsonBuilder().create();
+            ArrayList<Cache> output =  json.fromJson(reader, new TypeToken<ArrayList<Cache>>() {}.getType());
+            
+            if (output != null)
+            {
+                return output;
+            }
+            else
+            {
+                return new ArrayList<Cache>();
+            }
             
         }
         catch (Exception e)
@@ -115,11 +139,14 @@ public class JsonHandler
             System.out.println(e);
         }
         
-        return null;
+        return new ArrayList<Cache>();
     }
     
     private static ArrayList<Cache> merge(ArrayList<Cache> list1, ArrayList<Cache> list2)
     {
+        
+        System.out.println(list1);
+        System.out.println(list2);
         
         for (Cache c : list2)
         {

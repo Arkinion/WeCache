@@ -7,6 +7,9 @@ package com.mycompany.wecache.GUIs;
 
 import com.mycompany.wecache.BaseClasses.Cache;
 import com.mycompany.wecache.Info.JsonHandler;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -28,7 +31,7 @@ public class CacheSearchWindow extends JFrame
     /**
      * Creates new form CacheSearchWindow
      */
-    public CacheSearchWindow()
+    public CacheSearchWindow() throws UnsupportedEncodingException, IOException
     {
         
         initComponents();
@@ -226,7 +229,7 @@ public class CacheSearchWindow extends JFrame
         {
             waitlist = new HashSet();
             DefaultListModel model = new DefaultListModel();
-            List<Cache> newCaches = JsonHandler.retrieveWaitlistCaches();
+            ArrayList<Cache> newCaches = JsonHandler.retrieveWaitlistCaches();
             
             for (Cache c : newCaches)
             {

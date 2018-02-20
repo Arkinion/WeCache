@@ -189,7 +189,12 @@ public class MainWindow extends javax.swing.JFrame
             searchWindow.dispose();
         }
         
-        searchWindow = new CacheSearchWindow();
+        try {
+            searchWindow = new CacheSearchWindow();
+        } catch (Exception e)
+        {
+            System.out.println(e);
+        }
         
     }//GEN-LAST:event_button_SearchActionPerformed
 
