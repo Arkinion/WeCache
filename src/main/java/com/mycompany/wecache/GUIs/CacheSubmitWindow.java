@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.function.Consumer;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -148,23 +149,26 @@ public class CacheSubmitWindow extends javax.swing.JFrame
             }
             catch (Exception e)
             {
-                System.out.println("Error parsing latitude and/or longitude.\n" + e);
                 latitude = 0;
                 longitude = 0;
                 if (address.equals(""))
                 {
-                    System.out.println("Improper input.");
+                    JOptionPane.showMessageDialog(this, "Improper input. Please check that your information is correct.");
                     return;
                 }
                 else
                 {
-                    location = new GeoPoint(address);
+                    
+                    LatLng coords = locate(address);
+            
+                    location = new GeoPoint(coords.lat, coords.lng, address);
+                    
                 }
             }
         }
         else if (address.equals(""))
         {
-            System.out.println("No inputs.");
+            JOptionPane.showMessageDialog(this, "No inputs.");
             return;
         }
         else
@@ -172,6 +176,17 @@ public class CacheSubmitWindow extends javax.swing.JFrame
             LatLng coords = locate(address);
             
             location = new GeoPoint(coords.lat, coords.lng, address);
+        }
+        
+        if (location.latitude() < -90 || location.latitude() > 90)
+        {
+            JOptionPane.showMessageDialog(this, "Improper input. Please check that your information is correct.");
+            return;
+        }
+        else if (location.longitude() < -180 || location.latitude() > 180)
+        {
+            JOptionPane.showMessageDialog(this, "Improper input. Please check that your information is correct.");
+            return;
         }
         
         
@@ -206,7 +221,7 @@ public class CacheSubmitWindow extends javax.swing.JFrame
         {
             results = GeocodingApi.reverseGeocode(context, coords).await();
             
-            if (results != null || results.length > 0)
+            if (results != null && results.length > 0)
             {
                 output = results[0].formattedAddress;
                 
@@ -250,20 +265,18 @@ public class CacheSubmitWindow extends javax.swing.JFrame
         {
             results = GeocodingApi.geocode(context, address).await();
             
-            if (results != null || results.length > 0)
+            if (results != null && results.length > 0)
             {
                 
                 for (GeocodingResult r : results)
                 {
-                    System.out.println(r.geometry.location);
+                    return r.geometry.location;
                 }
-
-                return results[0].geometry.location;
+                
             }
             else
             {
-                System.out.println("Location not found.");
-                return new LatLng();
+                return new LatLng(91, 181);
             }
         }
         catch (Exception E)
@@ -271,7 +284,7 @@ public class CacheSubmitWindow extends javax.swing.JFrame
             System.out.println(E);
         }
         
-        return new LatLng();
+        return new LatLng(91, 181);
     }
     
 }

@@ -142,6 +142,14 @@ public class JsonHandler
         return new ArrayList<Cache>();
     }
     
+    public static void makeAvailable(Cache selectedCache)
+    {
+        
+        // WIP
+        
+        return;
+    }
+    
     private static ArrayList<Cache> merge(ArrayList<Cache> list1, ArrayList<Cache> list2)
     {
         

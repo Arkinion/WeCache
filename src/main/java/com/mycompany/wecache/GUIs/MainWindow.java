@@ -13,7 +13,6 @@ import com.mypopsy.maps.StaticMap;
 import com.mypopsy.maps.StaticMap.GeoPoint;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -169,16 +168,14 @@ public class MainWindow extends javax.swing.JFrame
 
     private void button_PrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_PrintActionPerformed
         
-        ArrayList<Cache> test = new ArrayList<Cache>();
+        selectedCache.find();
         
-        test.add(new Cache(new GeoPoint("Dildo, Canada")));
-        test.add(new Cache(new GeoPoint("3428 Grimes Ranch Rd., Austin, TX")));
-        test.add(new Cache(new GeoPoint("New York City")));
-        test.add(new Cache(new GeoPoint("Chicago, Illinois")));
-        
-        JsonHandler.storeAvailableCaches(test);
-        
-        System.out.println(JsonHandler.retrieveAvailableCaches());
+        if (!(selectedCache.isAvailable()) && selectedCache.getTimesFound() >= 10)
+        {
+            selectedCache.setAvailability(true);
+            
+            JsonHandler.makeAvailable(selectedCache);
+        }
         
     }//GEN-LAST:event_button_PrintActionPerformed
 
