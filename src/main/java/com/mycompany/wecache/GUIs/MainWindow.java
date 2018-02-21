@@ -33,7 +33,8 @@ public class MainWindow extends javax.swing.JFrame
     private static MainWindow instance;
     private JFrame searchWindow;
     private JFrame submitWindow;
-    private JFrame printWindow;
+    //Placeholder:
+    //private JFrame exportWindow;
     private static StaticMap map;
     private int zoom;
     private Cache selectedCache;
@@ -68,7 +69,7 @@ public class MainWindow extends javax.swing.JFrame
         panel_Map = new javax.swing.JPanel();
         button_Search = new javax.swing.JButton();
         button_Submit = new javax.swing.JButton();
-        button_Print = new javax.swing.JButton();
+        button_Export = new javax.swing.JButton();
         button_ZoomIn = new javax.swing.JButton();
         button_ZoomOut = new javax.swing.JButton();
 
@@ -103,10 +104,10 @@ public class MainWindow extends javax.swing.JFrame
             }
         });
 
-        button_Print.setText("Print Map");
-        button_Print.addActionListener(new java.awt.event.ActionListener() {
+        button_Export.setText("Export Map");
+        button_Export.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button_PrintActionPerformed(evt);
+                button_ExportActionPerformed(evt);
             }
         });
 
@@ -140,7 +141,7 @@ public class MainWindow extends javax.swing.JFrame
                             .addComponent(button_ZoomIn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(button_ZoomOut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(button_Print, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(button_Export, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -152,7 +153,7 @@ public class MainWindow extends javax.swing.JFrame
                         .addComponent(button_Search, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(button_Print, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(button_Export, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(button_ZoomIn, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -166,7 +167,7 @@ public class MainWindow extends javax.swing.JFrame
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void button_PrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_PrintActionPerformed
+    private void button_ExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_ExportActionPerformed
         
         selectedCache.find();
         
@@ -177,7 +178,7 @@ public class MainWindow extends javax.swing.JFrame
             JsonHandler.makeAvailable(selectedCache);
         }
         
-    }//GEN-LAST:event_button_PrintActionPerformed
+    }//GEN-LAST:event_button_ExportActionPerformed
 
     private void button_SearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_SearchActionPerformed
         
@@ -274,7 +275,7 @@ public class MainWindow extends javax.swing.JFrame
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton button_Print;
+    private javax.swing.JButton button_Export;
     private javax.swing.JButton button_Search;
     private javax.swing.JButton button_Submit;
     private javax.swing.JButton button_ZoomIn;

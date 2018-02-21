@@ -33,16 +33,16 @@
                   <Component id="label_Address" max="32767" attributes="0"/>
                   <Component id="button_SelectCache" alignment="0" max="32767" attributes="0"/>
                   <Component id="label_LatLong" max="32767" attributes="0"/>
-                  <Component id="jTextField4" alignment="0" max="32767" attributes="0"/>
+                  <Component id="textField_SearchRadius" alignment="0" max="32767" attributes="0"/>
                   <Component id="button_Search" alignment="0" max="32767" attributes="0"/>
                   <Component id="button_ClearFilter" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jTextField1" alignment="0" max="32767" attributes="0"/>
+                          <Component id="textField_Address" alignment="0" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="jTextField2" min="-2" pref="94" max="-2" attributes="0"/>
+                              <Component id="textField_Latitude" min="-2" pref="94" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="jTextField3" min="-2" pref="96" max="-2" attributes="0"/>
+                              <Component id="textField_Longitude" min="-2" pref="96" max="-2" attributes="0"/>
                           </Group>
                           <Component id="label_SearchRadius" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
@@ -63,18 +63,18 @@
                       <EmptySpace min="-2" pref="65" max="-2" attributes="0"/>
                       <Component id="label_Address" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jTextField1" min="-2" max="-2" attributes="0"/>
+                      <Component id="textField_Address" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="label_LatLong" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jTextField2" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTextField3" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="textField_Latitude" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="textField_Longitude" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="label_SearchRadius" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jTextField4" min="-2" max="-2" attributes="0"/>
+                      <Component id="textField_SearchRadius" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="button_Search" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -133,28 +133,31 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="button_SelectCacheActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField1">
+    <Component class="javax.swing.JTextField" name="textField_Address">
     </Component>
     <Component class="javax.swing.JLabel" name="label_LatLong">
       <Properties>
         <Property name="text" type="java.lang.String" value="Lat/Long Coordinates"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField2">
+    <Component class="javax.swing.JTextField" name="textField_Latitude">
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField3">
+    <Component class="javax.swing.JTextField" name="textField_Longitude">
     </Component>
     <Component class="javax.swing.JLabel" name="label_SearchRadius">
       <Properties>
         <Property name="text" type="java.lang.String" value="Search Radius"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField4">
+    <Component class="javax.swing.JTextField" name="textField_SearchRadius">
     </Component>
     <Component class="javax.swing.JButton" name="button_Search">
       <Properties>
         <Property name="text" type="java.lang.String" value="Search"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="button_SearchActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="button_ClearFilter">
       <Properties>

@@ -5,16 +5,19 @@
  */
 package com.mycompany.wecache.GUIs;
 
+import com.google.maps.model.LatLng;
 import com.mycompany.wecache.BaseClasses.Cache;
 import com.mycompany.wecache.Info.JsonHandler;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import com.mycompany.wecache.Info.MapFetcher;
+import com.mypopsy.maps.StaticMap;
+import com.mypopsy.maps.StaticMap.GeoPoint;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 
 /**
@@ -31,7 +34,7 @@ public class CacheSearchWindow extends JFrame
     /**
      * Creates new form CacheSearchWindow
      */
-    public CacheSearchWindow() throws UnsupportedEncodingException, IOException
+    public CacheSearchWindow()
     {
         
         initComponents();
@@ -56,16 +59,16 @@ public class CacheSearchWindow extends JFrame
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        list_Cache = new javax.swing.JList<>();
+        list_Cache = new javax.swing.JList<String>();
         checkBox_Waitlist = new javax.swing.JCheckBox();
         label_Address = new javax.swing.JLabel();
         button_SelectCache = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
+        textField_Address = new javax.swing.JTextField();
         label_LatLong = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        textField_Latitude = new javax.swing.JTextField();
+        textField_Longitude = new javax.swing.JTextField();
         label_SearchRadius = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        textField_SearchRadius = new javax.swing.JTextField();
         button_Search = new javax.swing.JButton();
         button_ClearFilter = new javax.swing.JButton();
 
@@ -100,6 +103,11 @@ public class CacheSearchWindow extends JFrame
         label_SearchRadius.setText("Search Radius");
 
         button_Search.setText("Search");
+        button_Search.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_SearchActionPerformed(evt);
+            }
+        });
 
         button_ClearFilter.setText("Clear Filter");
 
@@ -116,16 +124,16 @@ public class CacheSearchWindow extends JFrame
                     .addComponent(label_Address, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(button_SelectCache, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(label_LatLong, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField4)
+                    .addComponent(textField_SearchRadius)
                     .addComponent(button_Search, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(button_ClearFilter, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField1)
+                            .addComponent(textField_Address)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(textField_Latitude, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(textField_Longitude, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(label_SearchRadius))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -140,17 +148,17 @@ public class CacheSearchWindow extends JFrame
                         .addGap(65, 65, 65)
                         .addComponent(label_Address)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(textField_Address, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(label_LatLong)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(textField_Latitude, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(textField_Longitude, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addComponent(label_SearchRadius)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(textField_SearchRadius, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(button_Search)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -205,6 +213,89 @@ public class CacheSearchWindow extends JFrame
         }
     }//GEN-LAST:event_button_SelectCacheActionPerformed
 
+    private void button_SearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_SearchActionPerformed
+        String address = textField_Address.getText();
+        double latitude;
+        double longitude;
+        GeoPoint location;
+        
+        
+        if (!(textField_Latitude.getText().equals("") || textField_Longitude.getText().equals("")))
+        {
+            try
+            {
+                latitude = Double.parseDouble(textField_Latitude.getText());
+                longitude = Double.parseDouble(textField_Longitude.getText());
+                
+                if (address.equals(""))
+                {
+                    address = MapFetcher.locate(latitude, longitude);
+                    
+                    location = new StaticMap.GeoPoint(latitude, longitude, address);
+                }
+                else
+                {
+                    location = new StaticMap.GeoPoint(latitude, longitude, address);
+                }
+                
+            }
+            catch (Exception e)
+            {
+                latitude = 0;
+                longitude = 0;
+                if (address.equals(""))
+                {
+                    JOptionPane.showMessageDialog(this, "Improper input. Please check that your information is correct.");
+                    return;
+                }
+                else
+                {
+                    
+                    LatLng coords = MapFetcher.locate(address);
+            
+                    location = new StaticMap.GeoPoint(coords.lat, coords.lng, address);
+                    
+                }
+            }
+        }
+        else if (address.equals(""))
+        {
+            JOptionPane.showMessageDialog(this, "No inputs.");
+            return;
+        }
+        else
+        {
+            LatLng coords = MapFetcher.locate(address);
+            
+            location = new StaticMap.GeoPoint(coords.lat, coords.lng, address);
+        }
+        
+        if (location.latitude() < -90 || location.latitude() > 90)
+        {
+            JOptionPane.showMessageDialog(this, "Improper input. Please check that your information is correct.");
+            return;
+        }
+        else if (location.longitude() < -180 || location.latitude() > 180)
+        {
+            JOptionPane.showMessageDialog(this, "Improper input. Please check that your information is correct.");
+            return;
+        }
+        
+        ArrayList<Cache> caches;
+        
+        if (checkBox_Waitlist.isSelected())
+        {
+            caches = JsonHandler.retrieveWaitlistCaches();
+        }
+        else
+        {
+            caches = JsonHandler.retrieveAvailableCaches();
+        }
+        
+        //Stream for search
+        
+    }//GEN-LAST:event_button_SearchActionPerformed
+
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -213,14 +304,14 @@ public class CacheSearchWindow extends JFrame
     private javax.swing.JButton button_SelectCache;
     private javax.swing.JCheckBox checkBox_Waitlist;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
     private javax.swing.JLabel label_Address;
     private javax.swing.JLabel label_LatLong;
     private javax.swing.JLabel label_SearchRadius;
     private javax.swing.JList<String> list_Cache;
+    private javax.swing.JTextField textField_Address;
+    private javax.swing.JTextField textField_Latitude;
+    private javax.swing.JTextField textField_Longitude;
+    private javax.swing.JTextField textField_SearchRadius;
     // End of variables declaration//GEN-END:variables
 
     private void updateCaches()

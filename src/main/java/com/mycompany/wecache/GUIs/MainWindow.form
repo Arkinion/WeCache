@@ -37,7 +37,7 @@
                           <Component id="button_ZoomOut" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="button_Print" max="32767" attributes="0"/>
+                      <Component id="button_Export" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -53,7 +53,7 @@
                       <Component id="button_Search" min="-2" pref="220" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="button_Print" min="-2" pref="220" max="-2" attributes="0"/>
+                          <Component id="button_Export" min="-2" pref="220" max="-2" attributes="0"/>
                           <Group type="102" attributes="0">
                               <Component id="button_ZoomIn" min="-2" pref="106" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
@@ -110,12 +110,12 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="button_SubmitActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="button_Print">
+    <Component class="javax.swing.JButton" name="button_Export">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Print Map"/>
+        <Property name="text" type="java.lang.String" value="Export Map"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="button_PrintActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="button_ExportActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="button_ZoomIn">

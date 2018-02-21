@@ -6,12 +6,10 @@
 package com.mycompany.wecache.GUIs;
 
 import com.mypopsy.maps.StaticMap.GeoPoint;
-import com.google.maps.GeoApiContext;
-import com.google.maps.GeocodingApi;
-import com.google.maps.model.GeocodingResult;
 import com.google.maps.model.LatLng;
 import com.mycompany.wecache.BaseClasses.Cache;
 import com.mycompany.wecache.Info.JsonHandler;
+import com.mycompany.wecache.Info.MapFetcher;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
@@ -132,7 +130,7 @@ public class CacheSubmitWindow extends javax.swing.JFrame
                 
                 if (address.equals(""))
                 {
-                    address = locate(latitude, longitude);
+                    address = MapFetcher.locate(latitude, longitude);
                     
                     location = new GeoPoint(latitude, longitude, address);
                 }
@@ -154,7 +152,7 @@ public class CacheSubmitWindow extends javax.swing.JFrame
                 else
                 {
                     
-                    LatLng coords = locate(address);
+                    LatLng coords = MapFetcher.locate(address);
             
                     location = new GeoPoint(coords.lat, coords.lng, address);
                     
@@ -168,7 +166,7 @@ public class CacheSubmitWindow extends javax.swing.JFrame
         }
         else
         {
-            LatLng coords = locate(address);
+            LatLng coords = MapFetcher.locate(address);
             
             location = new GeoPoint(coords.lat, coords.lng, address);
         }
@@ -205,81 +203,4 @@ public class CacheSubmitWindow extends javax.swing.JFrame
     private javax.swing.JTextField textField_Longitude;
     // End of variables declaration//GEN-END:variables
 
-    private String locate(double latitude, double longitude)
-    {
-        LatLng coords = new LatLng(latitude, longitude);
-        GeoApiContext context = MainWindow.getGeoContext();
-        GeocodingResult[] results;
-        String output = "";
-        
-        try
-        {
-            results = GeocodingApi.reverseGeocode(context, coords).await();
-            
-            if (results != null && results.length > 0)
-            {
-                output = results[0].formattedAddress;
-                
-                for (GeocodingResult r : results)
-                {
-                    if ((r.formattedAddress.split(",").length > output.split(",").length)
-                            || (r.formattedAddress.length() > output.length()
-                                && r.formattedAddress.split(",").length == output.split(",").length))
-                    {
-                        output = r.formattedAddress;
-                    }
-                }
-
-                System.out.println(output);
-                return output;
-            }
-            else
-            {
-                System.out.println("Location not found.");
-                return "";
-            }
-        }
-        catch (Exception E)
-        {
-            System.out.println(E);
-        }
-        
-        // Check https://www.programcreek.com/java-api-examples/index.php?api=com.google.maps.GeoApiContext
-        
-        // Check https://www.programcreek.com/java-api-examples/?api=com.google.maps.GeocodingApi
-        
-        return "";
-    }
-    
-    public LatLng locate(String address)
-    {
-        GeoApiContext context = MainWindow.getGeoContext();
-        GeocodingResult[] results;
-        
-        try
-        {
-            results = GeocodingApi.geocode(context, address).await();
-            
-            if (results != null && results.length > 0)
-            {
-                
-                for (GeocodingResult r : results)
-                {
-                    return r.geometry.location;
-                }
-                
-            }
-            else
-            {
-                return new LatLng(91, 181);
-            }
-        }
-        catch (Exception E)
-        {
-            System.out.println(E);
-        }
-        
-        return new LatLng(91, 181);
-    }
-    
 }
