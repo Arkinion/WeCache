@@ -7,17 +7,12 @@ package com.mycompany.wecache.GUIs;
 
 import com.mypopsy.maps.StaticMap.GeoPoint;
 import com.google.maps.GeoApiContext;
-import com.google.maps.GeocodingApiRequest;
 import com.google.maps.GeocodingApi;
-import com.google.maps.errors.ApiException;
 import com.google.maps.model.GeocodingResult;
 import com.google.maps.model.LatLng;
 import com.mycompany.wecache.BaseClasses.Cache;
 import com.mycompany.wecache.Info.JsonHandler;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.function.Consumer;
 import javax.swing.JOptionPane;
 
 /**
