@@ -1,2 +1,11 @@
 [
+  {
+    "location": {
+      "latitude": 30.3763951,
+      "longitude": -97.89535640000001,
+      "address": "3428 Grimes Ranch Rd., Austin, TX"
+    },
+    "timesFound": 10,
+    "available": true
+  }
 ]

@@ -171,7 +171,7 @@ public class CacheSubmitWindow extends javax.swing.JFrame
             location = new GeoPoint(coords.lat, coords.lng, address);
         }
         
-        if (location.latitude() < -90 || location.latitude() > 90)
+        if (location.latitude() <= -90 || location.latitude() >= 90)
         {
             JOptionPane.showMessageDialog(this, "Improper input. Please check that your information is correct.");
             return;

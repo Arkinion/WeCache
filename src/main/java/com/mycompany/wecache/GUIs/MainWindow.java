@@ -169,6 +169,8 @@ public class MainWindow extends javax.swing.JFrame
 
     private void button_ExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_ExportActionPerformed
         
+        System.out.println("Export Pressed: " + selectedCache);
+        
         selectedCache.find();
         
         if (!(selectedCache.isAvailable()) && selectedCache.getTimesFound() >= 10)
@@ -307,6 +309,18 @@ public class MainWindow extends javax.swing.JFrame
         
         repaint();
         
+    }
+    
+    public void updateWindows()
+    {
+        if (searchWindow != null)
+        {
+            searchWindow.repaint();
+        }
+        if (submitWindow != null)
+        {
+            submitWindow.repaint();
+        }
     }
     
     public static MainWindow getSingleton()

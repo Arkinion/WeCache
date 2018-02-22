@@ -177,6 +177,7 @@ public class CacheSearchWindow extends JFrame
     }//GEN-LAST:event_checkBox_WaitlistStateChanged
 
     private void list_CacheValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_list_CacheValueChanged
+        
         Object name = list_Cache.getSelectedValue();
         
         if (name != null)
@@ -203,7 +204,6 @@ public class CacheSearchWindow extends JFrame
             }
         }
         
-        //System.out.println(selectedCache);
     }//GEN-LAST:event_list_CacheValueChanged
 
     private void button_SelectCacheActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_SelectCacheActionPerformed
@@ -217,7 +217,18 @@ public class CacheSearchWindow extends JFrame
         String address = textField_Address.getText();
         double latitude;
         double longitude;
+        int searchRadius;
         GeoPoint location;
+        
+        
+        if (!textField_SearchRadius.getText().equals("") && textField_SearchRadius.getText().matches("\\d*"))
+        {
+            searchRadius = Integer.parseInt(textField_SearchRadius.getText());
+        }
+        else
+        {
+            searchRadius = 50;
+        }
         
         
         if (!(textField_Latitude.getText().equals("") || textField_Longitude.getText().equals("")))
@@ -292,7 +303,8 @@ public class CacheSearchWindow extends JFrame
             caches = JsonHandler.retrieveAvailableCaches();
         }
         
-        //Stream for search
+        //Use stream to filter caches for caches that are in the range
+        caches.stream();
         
     }//GEN-LAST:event_button_SearchActionPerformed
 

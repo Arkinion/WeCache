@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.mycompany.wecache.BaseClasses.Cache;
+import com.mycompany.wecache.GUIs.MainWindow;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
@@ -38,11 +39,35 @@ public class JsonHandler
             System.out.println("Store Waitlist Retrieval:" + retrieved);
             
             String path = "src\\main\\java\\com\\mycompany\\wecache\\Caches\\";
-            Writer writer = new OutputStreamWriter(new FileOutputStream(path + "Waitlist_Caches.json"), "UTF-8");
+            Writer writer = new OutputStreamWriter(new FileOutputStream(path + "Available_Caches.json"), "UTF-8");
             
             Gson json = new GsonBuilder().setPrettyPrinting().create();
             
             json.toJson(merge(retrieved, available), writer);
+            writer.flush();
+            
+            writer.close();
+            
+        }
+        catch (Exception e)
+        {
+            System.out.println(e);
+        }
+        
+    }
+    
+    public static void setAvailableCaches(ArrayList<Cache> available)
+    {
+        
+        try
+        {
+            
+            String path = "src\\main\\java\\com\\mycompany\\wecache\\Caches\\";
+            Writer writer = new OutputStreamWriter(new FileOutputStream(path + "Available_Caches.json"), "UTF-8");
+            
+            Gson json = new GsonBuilder().setPrettyPrinting().create();
+            
+            json.toJson(available, writer);
             writer.flush();
             
             writer.close();
@@ -66,6 +91,7 @@ public class JsonHandler
             Gson json = new GsonBuilder().create();
             
             ArrayList<Cache> output = json.fromJson(reader, new TypeToken<ArrayList<Cache>>() {}.getType());
+            reader.close();
             
             if (output != null)
             {
@@ -112,6 +138,30 @@ public class JsonHandler
         
     }
     
+    public static void setWaitlistCaches(ArrayList<Cache> waitlist)
+    {
+        
+        try
+        {
+            
+            String path = "src\\main\\java\\com\\mycompany\\wecache\\Caches\\";
+            Writer writer = new OutputStreamWriter(new FileOutputStream(path + "Waitlist_Caches.json"), "UTF-8");
+            
+            Gson json = new GsonBuilder().setPrettyPrinting().create();
+            
+            json.toJson(waitlist, writer);
+            writer.flush();
+            
+            writer.close();
+            
+        }
+        catch (Exception e)
+        {
+            System.out.println(e);
+        }
+        
+    }
+    
     public static ArrayList<Cache> retrieveWaitlistCaches()
     {
         
@@ -123,6 +173,7 @@ public class JsonHandler
             
             Gson json = new GsonBuilder().create();
             ArrayList<Cache> output =  json.fromJson(reader, new TypeToken<ArrayList<Cache>>() {}.getType());
+            reader.close();
             
             if (output != null)
             {
@@ -145,9 +196,31 @@ public class JsonHandler
     public static void makeAvailable(Cache selectedCache)
     {
         
-        // WIP
+        ArrayList<Cache> waitlist = retrieveWaitlistCaches();
+        ArrayList<Cache> available = retrieveAvailableCaches();
         
-        return;
+        System.out.println("Waitlist: " + waitlist);
+        System.out.println("Available: " + available);
+        System.out.println("Selected: " + selectedCache);
+        
+        for (int i = 0; i < waitlist.size(); i++)
+        {
+            if (waitlist.get(i).equals(selectedCache))
+            {
+                System.out.println("Match Found!");
+                ArrayList<Cache> moving = new ArrayList<Cache>();
+                moving.add(selectedCache);
+                
+                waitlist.remove(i);
+                available = merge(available, moving);
+                
+                setWaitlistCaches(waitlist);
+                setAvailableCaches(available);
+                
+                MainWindow.getSingleton().updateWindows();
+            }
+        }
+        
     }
     
     private static ArrayList<Cache> merge(ArrayList<Cache> list1, ArrayList<Cache> list2)

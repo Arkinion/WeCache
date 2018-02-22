@@ -5,15 +5,8 @@
  */
 package com.mycompany.wecache.BaseClasses;
 
-import com.google.maps.GeoApiContext;
-import com.google.maps.model.LatLng;
-import com.mycompany.wecache.GUIs.MainWindow;
 import com.mypopsy.maps.StaticMap.GeoPoint;
 import java.io.Serializable;
-import com.google.maps.DistanceMatrixApi;
-import com.google.maps.model.DistanceMatrix;
-import com.google.maps.model.TravelMode;
-import com.google.maps.model.Unit;
 import com.mycompany.wecache.Info.MapFetcher;
 
 /**
@@ -45,8 +38,6 @@ public class Cache implements Comparable, Serializable
     {
         return MapFetcher.distance(location, c.getLocation()) <= range / 1000;
     }
-    
-    
     
     public void find()
     {
