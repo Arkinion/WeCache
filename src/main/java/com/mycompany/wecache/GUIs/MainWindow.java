@@ -36,10 +36,8 @@ public class MainWindow extends javax.swing.JFrame
             .apiKey("AIzaSyCcP9ALyWPxewChGqXYuBsVdRG4NoREkDw")
             .build();
     private static MainWindow instance;
-    private JFrame searchWindow;
-    private JFrame submitWindow;
-    //Placeholder:
-    //private JFrame exportWindow;
+    private CacheSearchWindow searchWindow;
+    private CacheSubmitWindow submitWindow;
     private static StaticMap map;
     BufferedImage mapImage;
     private int zoom;
@@ -55,6 +53,7 @@ public class MainWindow extends javax.swing.JFrame
         
         instance = this;
         selectedCache = new Cache();
+        selectedCache.setAvailability(true);
         map = new StaticMap();
         zoom = 15;
         
@@ -173,18 +172,9 @@ public class MainWindow extends javax.swing.JFrame
 
     private void button_ExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_ExportActionPerformed
         
-        selectedCache.find();
-        
-        if (!(selectedCache.isAvailable()) && selectedCache.getTimesFound() >= 10)
-        {
-            selectedCache.setAvailability(true);
-            
-            JsonHandler.makeAvailable(selectedCache);
-        }
-        
         File file;
         JFileChooser saveFile = new JFileChooser();
-        saveFile.setFileFilter(new FileNameExtensionFilter("Image File (jpg)", "jpg"));
+        saveFile.setFileFilter(new FileNameExtensionFilter("Image File (.jpg)", "jpg"));
         int sf = saveFile.showSaveDialog(this);
         if(sf == JFileChooser.APPROVE_OPTION)
         {
@@ -205,11 +195,22 @@ public class MainWindow extends javax.swing.JFrame
             {
                 System.out.println(e);
                 JOptionPane.showMessageDialog(this, "Map has not been saved.");
+                return;
             }
         }
         else if(sf == JFileChooser.CANCEL_OPTION)
         {
             JOptionPane.showMessageDialog(this, "Map has not been saved.");
+            return;
+        }
+        
+        selectedCache.find();
+        
+        if (!(selectedCache.isAvailable()) && selectedCache.getTimesFound() >= 10)
+        {
+            selectedCache.setAvailability(true);
+            
+            JsonHandler.makeAvailable(selectedCache);
         }
         
     }//GEN-LAST:event_button_ExportActionPerformed
@@ -351,6 +352,7 @@ public class MainWindow extends javax.swing.JFrame
     {
         if (searchWindow != null)
         {
+            searchWindow.updateCaches();
             searchWindow.repaint();
         }
         if (submitWindow != null)

@@ -1,9 +1,27 @@
 [
   {
     "location": {
+      "latitude": 18.0,
+      "longitude": 91.0,
+      "address": ""
+    },
+    "timesFound": 10,
+    "available": true
+  },
+  {
+    "location": {
       "latitude": 30.3763951,
       "longitude": -97.89535640000001,
       "address": "3428 Grimes Ranch Rd., Austin, TX"
+    },
+    "timesFound": 10,
+    "available": true
+  },
+  {
+    "location": {
+      "latitude": 34.0,
+      "longitude": -1.0,
+      "address": "Naâma Province, Algeria"
     },
     "timesFound": 10,
     "available": true

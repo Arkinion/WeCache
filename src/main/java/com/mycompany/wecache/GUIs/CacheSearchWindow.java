@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.event.ChangeListener;
 
 
 /**
@@ -32,7 +31,6 @@ public class CacheSearchWindow extends JFrame
     private Cache selectedCache;
     private HashSet<Cache> caches;
     private HashSet<Cache> waitlist;
-    private ChangeListener l;
 
     /**
      * Creates new form CacheSearchWindow
@@ -348,7 +346,7 @@ public class CacheSearchWindow extends JFrame
     private javax.swing.JTextField textField_SearchRadius;
     // End of variables declaration//GEN-END:variables
 
-    private void updateCaches()
+    public void updateCaches()
     {
         if (checkBox_Waitlist.isSelected())
         {

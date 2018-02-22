@@ -20,16 +20,16 @@ public class Cache implements Comparable, Serializable
     private int timesFound;
     private boolean available;
     
-    public Cache()
+    public Cache(GeoPoint l)
     {
-        location = new GeoPoint("");
+        location = l;
         timesFound = 0;
         available = false;
     }
     
-    public Cache(GeoPoint l)
+    public Cache()
     {
-        location = l;
+        location = new GeoPoint("");
         timesFound = 0;
         available = false;
     }

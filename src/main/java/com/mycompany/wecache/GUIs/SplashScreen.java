@@ -16,9 +16,7 @@ public class SplashScreen
         throw new Exception("SplashScreen cannot be instantiated.");
     }
 
-    private static JWindow splashScreen = new JWindow();
-    private static Image favicon;
-
+    private static final JWindow splashScreen = new JWindow();
 
     public static void showSplash()
     {

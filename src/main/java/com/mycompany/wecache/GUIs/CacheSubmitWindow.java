@@ -123,7 +123,7 @@ public class CacheSubmitWindow extends javax.swing.JFrame
         
         if (!(textField_Latitude.getText().equals("") || textField_Longitude.getText().equals("")))
         {
-            if (textField_Latitude.getText().matches("\\d+\\.\\d*") && textField_Longitude.getText().matches("\\d+\\.\\d*"))
+            if (textField_Latitude.getText().matches("-?\\d+\\.?\\d*") && textField_Longitude.getText().matches("-?\\d+\\.?\\d*"))
             {
                 latitude = Double.parseDouble(textField_Latitude.getText());
                 longitude = Double.parseDouble(textField_Longitude.getText());
