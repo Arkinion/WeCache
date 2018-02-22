@@ -15,12 +15,9 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
-import javax.swing.AbstractButton;
-import javax.swing.ButtonModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 
@@ -95,7 +92,7 @@ public class CacheSearchWindow extends JFrame
             }
         });
 
-        label_Address.setText("Address");
+        label_Address.setText("Origin Address");
 
         button_SelectCache.setText("Select Cache");
         button_SelectCache.addActionListener(new java.awt.event.ActionListener() {
@@ -104,7 +101,7 @@ public class CacheSearchWindow extends JFrame
             }
         });
 
-        label_LatLong.setText("Lat/Long Coordinates");
+        label_LatLong.setText("Origin Lat/Long Coordinates");
 
         label_SearchRadius.setText("Search Radius");
 

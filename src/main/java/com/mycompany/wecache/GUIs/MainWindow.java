@@ -19,6 +19,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import com.google.maps.GeoApiContext;
+import java.io.File;
+import javax.imageio.ImageIO;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -36,6 +41,7 @@ public class MainWindow extends javax.swing.JFrame
     //Placeholder:
     //private JFrame exportWindow;
     private static StaticMap map;
+    BufferedImage mapImage;
     private int zoom;
     private Cache selectedCache;
 
@@ -45,7 +51,6 @@ public class MainWindow extends javax.swing.JFrame
      */
     public MainWindow() throws IOException
     {
-        
         initComponents();
         
         instance = this;
@@ -54,7 +59,6 @@ public class MainWindow extends javax.swing.JFrame
         zoom = 15;
         
         updateMap();
-        
     }
 
     /**
@@ -169,8 +173,6 @@ public class MainWindow extends javax.swing.JFrame
 
     private void button_ExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_ExportActionPerformed
         
-        System.out.println("Export Pressed: " + selectedCache);
-        
         selectedCache.find();
         
         if (!(selectedCache.isAvailable()) && selectedCache.getTimesFound() >= 10)
@@ -178,6 +180,36 @@ public class MainWindow extends javax.swing.JFrame
             selectedCache.setAvailability(true);
             
             JsonHandler.makeAvailable(selectedCache);
+        }
+        
+        File file;
+        JFileChooser saveFile = new JFileChooser();
+        saveFile.setFileFilter(new FileNameExtensionFilter("Image File (jpg)", "jpg"));
+        int sf = saveFile.showSaveDialog(this);
+        if(sf == JFileChooser.APPROVE_OPTION)
+        {
+            try
+            {
+                file = saveFile.getSelectedFile();
+                
+                if (!file.getName().matches(".*\\.jpg"))
+                {
+                    file = new File(file.toString() + ".jpg");
+                }
+                
+                ImageIO.write(mapImage, "jpg", file);
+                
+                JOptionPane.showMessageDialog(this, "Map has been saved.","Map Saved",JOptionPane.INFORMATION_MESSAGE);
+            }
+            catch (Exception e)
+            {
+                System.out.println(e);
+                JOptionPane.showMessageDialog(this, "Map has not been saved.");
+            }
+        }
+        else if(sf == JFileChooser.CANCEL_OPTION)
+        {
+            JOptionPane.showMessageDialog(this, "Map has not been saved.");
         }
         
     }//GEN-LAST:event_button_ExportActionPerformed
@@ -236,6 +268,8 @@ public class MainWindow extends javax.swing.JFrame
      */
     public static void main(String args[])
     {
+        //SplashScreen.showSplash();
+        
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -264,8 +298,9 @@ public class MainWindow extends javax.swing.JFrame
         {
             public void run()
             {
+                //SplashScreen.hideSplash();
                 try
-                {
+                {   
                     new MainWindow().setVisible(true);
                 }
                 catch (IOException ex)
@@ -299,9 +334,9 @@ public class MainWindow extends javax.swing.JFrame
         
         map.center(geo);
         
-        BufferedImage image = MapFetcher.fetchMap(geo, panel_Map.getSize(), zoom);
+        mapImage = MapFetcher.fetchMap(geo, panel_Map.getSize(), zoom);
         
-        JLabel label = new JLabel(new ImageIcon(image));
+        JLabel label = new JLabel(new ImageIcon(mapImage));
         label.setSize(panel_Map.getSize());
         
         panel_Map.removeAll();

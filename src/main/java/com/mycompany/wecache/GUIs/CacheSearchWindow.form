@@ -122,7 +122,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="label_Address">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Address"/>
+        <Property name="text" type="java.lang.String" value="Origin Address"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="button_SelectCache">
@@ -137,7 +137,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="label_LatLong">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Lat/Long Coordinates"/>
+        <Property name="text" type="java.lang.String" value="Origin Lat/Long Coordinates"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="textField_Latitude">
