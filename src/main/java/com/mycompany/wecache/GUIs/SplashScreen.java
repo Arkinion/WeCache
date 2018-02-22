@@ -28,7 +28,7 @@ public class SplashScreen
             @Override
             public void paintComponent(Graphics g)
             {
-                Image img = new ImageIcon("Splash image.png").getImage();
+                Image img = new ImageIcon("splash.png").getImage();
                 Dimension size = new Dimension(img.getWidth(null), img.getHeight(null));
                 setPreferredSize(size);
                 setMinimumSize(size);
@@ -38,20 +38,12 @@ public class SplashScreen
                 g.drawImage(img, 0, 0, null);
             }
         };
-        favicon = Toolkit.getDefaultToolkit().getImage("RSquared_Logo.png");
         double hWidth = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
         double hHeight = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
         splashScreen.setContentPane(content);
-
-        //favicon = Toolkit.getDefaultToolkit().getImage("RSquared_Logo.png");
-        //splashScreen.getContentPane().add( iconHolder);
-        //splashScreen.getContentPane().add(new JLabel("RSquared Cryptocurrency Trading App"));
-        //splashScreen.getContentPane().add(new JLabel("Automate your trades today",SwingConstants.));
-        //splashScreen.getContentPane().add(new JLabel("RESTRICTED ALPHA"), SwingConstants.RIGHT);
-        splashScreen.setBounds(((int)hWidth)/2-(240), (((int)hHeight)/2-160), 480, 320);
-        splashScreen.setIconImage(favicon);
+        
+        splashScreen.setBounds(((int)hWidth)/2-(320), (((int)hHeight)/2-235), 640, 470);
         splashScreen.setVisible(true);
-
 
     }
 

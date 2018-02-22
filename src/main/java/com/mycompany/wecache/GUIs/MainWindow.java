@@ -268,7 +268,7 @@ public class MainWindow extends javax.swing.JFrame
      */
     public static void main(String args[])
     {
-        //SplashScreen.showSplash();
+       SplashScreen.showSplash();
         
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -298,12 +298,13 @@ public class MainWindow extends javax.swing.JFrame
         {
             public void run()
             {
-                //SplashScreen.hideSplash();
                 try
                 {   
+                    Thread.sleep(1500);
+                    SplashScreen.hideSplash();
                     new MainWindow().setVisible(true);
                 }
-                catch (IOException ex)
+                catch (Exception ex)
                 {
                     Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
                 }
