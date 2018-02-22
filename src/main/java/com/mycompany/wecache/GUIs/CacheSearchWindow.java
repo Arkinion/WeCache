@@ -9,15 +9,19 @@ import com.google.maps.model.LatLng;
 import com.mycompany.wecache.BaseClasses.Cache;
 import com.mycompany.wecache.Info.JsonHandler;
 import com.mycompany.wecache.Info.MapFetcher;
-import com.mypopsy.maps.StaticMap;
 import com.mypopsy.maps.StaticMap.GeoPoint;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
+import javax.swing.AbstractButton;
+import javax.swing.ButtonModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 
 /**
@@ -27,9 +31,11 @@ import javax.swing.JOptionPane;
 public class CacheSearchWindow extends JFrame
 {
     
-    Cache selectedCache;
-    HashSet<Cache> caches;
-    HashSet<Cache> waitlist;
+    private boolean currentMark;
+    private Cache selectedCache;
+    private HashSet<Cache> caches;
+    private HashSet<Cache> waitlist;
+    private ChangeListener l;
 
     /**
      * Creates new form CacheSearchWindow
@@ -59,7 +65,7 @@ public class CacheSearchWindow extends JFrame
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        list_Cache = new javax.swing.JList<String>();
+        list_Cache = new javax.swing.JList<>();
         checkBox_Waitlist = new javax.swing.JCheckBox();
         label_Address = new javax.swing.JLabel();
         button_SelectCache = new javax.swing.JButton();
@@ -110,6 +116,11 @@ public class CacheSearchWindow extends JFrame
         });
 
         button_ClearFilter.setText("Clear Filter");
+        button_ClearFilter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_ClearFilterActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -173,7 +184,11 @@ public class CacheSearchWindow extends JFrame
     }// </editor-fold>//GEN-END:initComponents
 
     private void checkBox_WaitlistStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_checkBox_WaitlistStateChanged
-        updateCaches();
+        if (checkBox_Waitlist.isSelected() != currentMark)
+        {
+            currentMark = checkBox_Waitlist.isSelected();
+            updateCaches();
+        }
     }//GEN-LAST:event_checkBox_WaitlistStateChanged
 
     private void list_CacheValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_list_CacheValueChanged
@@ -233,7 +248,7 @@ public class CacheSearchWindow extends JFrame
         
         if (!(textField_Latitude.getText().equals("") || textField_Longitude.getText().equals("")))
         {
-            try
+            if (textField_Latitude.getText().matches("-?\\d+\\.?\\d*") && textField_Longitude.getText().matches("-?\\d+\\.?\\d*"))
             {
                 latitude = Double.parseDouble(textField_Latitude.getText());
                 longitude = Double.parseDouble(textField_Longitude.getText());
@@ -242,18 +257,17 @@ public class CacheSearchWindow extends JFrame
                 {
                     address = MapFetcher.locate(latitude, longitude);
                     
-                    location = new StaticMap.GeoPoint(latitude, longitude, address);
+                    location = new GeoPoint(latitude, longitude, address);
                 }
                 else
                 {
-                    location = new StaticMap.GeoPoint(latitude, longitude, address);
-                }
+                    LatLng coords = MapFetcher.locate(address);
                 
+                    location = new GeoPoint(coords.lat, coords.lng, address);
+                }
             }
-            catch (Exception e)
+            else
             {
-                latitude = 0;
-                longitude = 0;
                 if (address.equals(""))
                 {
                     JOptionPane.showMessageDialog(this, "Improper input. Please check that your information is correct.");
@@ -261,24 +275,28 @@ public class CacheSearchWindow extends JFrame
                 }
                 else
                 {
-                    
                     LatLng coords = MapFetcher.locate(address);
             
-                    location = new StaticMap.GeoPoint(coords.lat, coords.lng, address);
-                    
+                    location = new GeoPoint(coords.lat, coords.lng, address);
                 }
             }
         }
-        else if (address.equals(""))
+        else if (address.equals("") && textField_Latitude.getText().equals("")
+                && textField_Longitude.getText().equals(""))
         {
             JOptionPane.showMessageDialog(this, "No inputs.");
+            return;
+        }
+        else if (address.equals(""))
+        {
+            JOptionPane.showMessageDialog(this, "Improper input. Please check that your information is correct.");
             return;
         }
         else
         {
             LatLng coords = MapFetcher.locate(address);
             
-            location = new StaticMap.GeoPoint(coords.lat, coords.lng, address);
+            location = new GeoPoint(coords.lat, coords.lng, address);
         }
         
         if (location.latitude() < -90 || location.latitude() > 90)
@@ -304,9 +322,16 @@ public class CacheSearchWindow extends JFrame
         }
         
         //Use stream to filter caches for caches that are in the range
-        caches.stream();
+        List<Cache> filteredCaches = caches.stream()
+                                        .filter(i -> i.inRange(location, searchRadius))
+                                        .collect(Collectors.toList());
+        updateCaches(filteredCaches);
         
     }//GEN-LAST:event_button_SearchActionPerformed
+
+    private void button_ClearFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_ClearFilterActionPerformed
+        updateCaches();
+    }//GEN-LAST:event_button_ClearFilterActionPerformed
 
     
 
@@ -350,6 +375,38 @@ public class CacheSearchWindow extends JFrame
             List<Cache> newCaches = JsonHandler.retrieveAvailableCaches();
             
             for (Cache c : newCaches)
+            {
+                caches.add(c);
+                model.addElement(c);
+            }
+            
+            list_Cache.setModel(model);
+        }
+        
+    }
+    
+    private void updateCaches(List<Cache> filteredList)
+    {
+        if (checkBox_Waitlist.isSelected())
+        {
+            waitlist = new HashSet();
+            DefaultListModel model = new DefaultListModel();
+            
+            for (Cache c : filteredList)
+            {
+                waitlist.add(c);
+                model.addElement(c);
+            }
+            
+            list_Cache.setModel(model);
+            
+        }
+        else
+        {
+            caches = new HashSet();
+            DefaultListModel model = new DefaultListModel();
+            
+            for (Cache c : filteredList)
             {
                 caches.add(c);
                 model.addElement(c);

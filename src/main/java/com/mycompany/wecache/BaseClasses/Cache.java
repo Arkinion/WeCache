@@ -34,9 +34,9 @@ public class Cache implements Comparable, Serializable
         available = false;
     }
     
-    public boolean inRange(Cache c, long range)
+    public boolean inRange(GeoPoint c, long range)
     {
-        return MapFetcher.distance(location, c.getLocation()) <= range / 1000;
+        return MapFetcher.distance(location, c) <= range / 1000;
     }
     
     public void find()

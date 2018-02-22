@@ -123,7 +123,7 @@ public class CacheSubmitWindow extends javax.swing.JFrame
         
         if (!(textField_Latitude.getText().equals("") || textField_Longitude.getText().equals("")))
         {
-            try
+            if (textField_Latitude.getText().matches("\\d+\\.\\d*") && textField_Longitude.getText().matches("\\d+\\.\\d*"))
             {
                 latitude = Double.parseDouble(textField_Latitude.getText());
                 longitude = Double.parseDouble(textField_Longitude.getText());
@@ -136,14 +136,13 @@ public class CacheSubmitWindow extends javax.swing.JFrame
                 }
                 else
                 {
-                    location = new GeoPoint(latitude, longitude, address);
-                }
+                    LatLng coords = MapFetcher.locate(address);
                 
+                    location = new GeoPoint(coords.lat, coords.lng, address);
+                }
             }
-            catch (Exception e)
+            else
             {
-                latitude = 0;
-                longitude = 0;
                 if (address.equals(""))
                 {
                     JOptionPane.showMessageDialog(this, "Improper input. Please check that your information is correct.");
@@ -151,17 +150,21 @@ public class CacheSubmitWindow extends javax.swing.JFrame
                 }
                 else
                 {
-                    
                     LatLng coords = MapFetcher.locate(address);
             
                     location = new GeoPoint(coords.lat, coords.lng, address);
-                    
                 }
             }
         }
-        else if (address.equals(""))
+        else if (address.equals("") && textField_Latitude.getText().equals("")
+                && textField_Longitude.getText().equals(""))
         {
             JOptionPane.showMessageDialog(this, "No inputs.");
+            return;
+        }
+        else if (address.equals(""))
+        {
+            JOptionPane.showMessageDialog(this, "Improper input. Please check that your information is correct.");
             return;
         }
         else

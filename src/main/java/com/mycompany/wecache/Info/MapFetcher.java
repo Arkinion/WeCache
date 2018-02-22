@@ -143,7 +143,7 @@ public class MapFetcher
         GeoApiContext context = MainWindow.getGeoContext();
         DistanceMatrix result;
         long output;
-        
+                
         try
         {
             result = DistanceMatrixApi.newRequest(context)
@@ -160,7 +160,17 @@ public class MapFetcher
             return 0;
         }
         
-        output =  result.rows[0].elements[0].distance.inMeters;
+        if (!(result == null || result.rows == null || result.rows[0] == null
+                || result.rows[0].elements == null || result.rows[0].elements[0] == null
+                || result.rows[0].elements[0].distance == null))
+        {
+            output =  result.rows[0].elements[0].distance.inMeters;
+        }
+        else
+        {
+            return Long.MAX_VALUE;
+        }
+        
         return output;
     }
     
