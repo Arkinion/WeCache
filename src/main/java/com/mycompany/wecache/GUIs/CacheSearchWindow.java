@@ -237,7 +237,7 @@ public class CacheSearchWindow extends JFrame
         }
         else
         {
-            searchRadius = 50;
+            searchRadius = 30;
         }
         
         

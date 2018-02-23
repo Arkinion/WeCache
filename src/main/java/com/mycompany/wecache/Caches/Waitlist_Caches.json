@@ -19,6 +19,24 @@
   },
   {
     "location": {
+      "latitude": 38.074859,
+      "longitude": -87.54263739999999,
+      "address": "1114 oak trace, evansville, in"
+    },
+    "timesFound": 0,
+    "available": false
+  },
+  {
+    "location": {
+      "latitude": 40.5976518,
+      "longitude": -89.45379419999999,
+      "address": "468 E. Idlewood, Morton, IL"
+    },
+    "timesFound": 0,
+    "available": false
+  },
+  {
+    "location": {
       "latitude": 40.6866242,
       "longitude": -89.49844999999999,
       "address": "306 Crestlawn Dr., Washington, IL"
