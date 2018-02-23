@@ -237,4 +237,18 @@ public class JsonHandler
         
     }
     
+    public static boolean contains(Cache c)
+    {
+        ArrayList<Cache> available = retrieveAvailableCaches();
+        ArrayList<Cache> waitlist = retrieveWaitlistCaches();
+        
+        for (Cache cache : merge(available, waitlist))
+        {
+            if (c.equals(cache)) return true;
+        }
+        
+        return false;
+        
+    }
+    
 }

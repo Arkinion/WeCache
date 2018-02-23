@@ -185,9 +185,14 @@ public class CacheSubmitWindow extends javax.swing.JFrame
             return;
         }
         
-        
         ArrayList<Cache> list = new ArrayList<Cache>();
         list.add(new Cache(location));
+        
+        if (JsonHandler.contains(list.get(0)))
+        {
+            JOptionPane.showMessageDialog(this, "This Cache already exists.");
+            return;
+        }
         
         MainWindow.getSingleton().changeCache(list.get(0));
         JsonHandler.storeWaitlistCaches(list);

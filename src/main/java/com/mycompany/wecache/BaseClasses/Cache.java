@@ -36,7 +36,7 @@ public class Cache implements Comparable, Serializable
     
     public boolean inRange(GeoPoint c, long range)
     {
-        return MapFetcher.distance(location, c) <= range / 1000;
+        return MapFetcher.distance(location, c) <= range * 1000;
     }
     
     public void find()
@@ -67,7 +67,10 @@ public class Cache implements Comparable, Serializable
     @Override
     public boolean equals(Object o)
     {
-        return location.equals(location);
+        Cache c = (Cache)o;
+        
+        return (location.latitude() == c.getLocation().latitude() && location.longitude() == c.getLocation().longitude())
+                || location.address().equals(c.getLocation().address());
     }
     
     @Override

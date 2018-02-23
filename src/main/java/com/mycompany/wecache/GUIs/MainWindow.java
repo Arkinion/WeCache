@@ -301,7 +301,7 @@ public class MainWindow extends javax.swing.JFrame
             {
                 try
                 {   
-                    Thread.sleep(1500);
+                    Thread.sleep(2000);
                     SplashScreen.hideSplash();
                     new MainWindow().setVisible(true);
                 }

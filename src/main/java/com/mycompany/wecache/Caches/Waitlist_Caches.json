@@ -1,1 +1,38 @@
-[]
+[
+  {
+    "location": {
+      "latitude": 30.267153,
+      "longitude": -97.7430608,
+      "address": "austin, tx"
+    },
+    "timesFound": 0,
+    "available": false
+  },
+  {
+    "location": {
+      "latitude": 34.0,
+      "longitude": 1.0,
+      "address": "El Bayadh Province, Algeria"
+    },
+    "timesFound": 0,
+    "available": false
+  },
+  {
+    "location": {
+      "latitude": 40.6866242,
+      "longitude": -89.49844999999999,
+      "address": "306 Crestlawn Dr., Washington, IL"
+    },
+    "timesFound": 0,
+    "available": false
+  },
+  {
+    "location": {
+      "latitude": 41.079273,
+      "longitude": -85.1393513,
+      "address": "Fort Wayne, IN"
+    },
+    "timesFound": 0,
+    "available": false
+  }
+]

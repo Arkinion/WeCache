@@ -60,7 +60,7 @@ public class CacheSearchWindow extends JFrame
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        list_Cache = new javax.swing.JList<>();
+        list_Cache = new javax.swing.JList<String>();
         checkBox_Waitlist = new javax.swing.JCheckBox();
         label_Address = new javax.swing.JLabel();
         button_SelectCache = new javax.swing.JButton();
@@ -101,7 +101,7 @@ public class CacheSearchWindow extends JFrame
 
         label_LatLong.setText("Origin Lat/Long Coordinates");
 
-        label_SearchRadius.setText("Search Radius");
+        label_SearchRadius.setText("Search Radius (km.)");
 
         button_Search.setText("Search");
         button_Search.addActionListener(new java.awt.event.ActionListener() {
