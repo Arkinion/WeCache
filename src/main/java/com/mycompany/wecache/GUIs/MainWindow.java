@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import com.google.maps.GeoApiContext;
 import java.io.File;
@@ -301,7 +300,7 @@ public class MainWindow extends javax.swing.JFrame
             {
                 try
                 {   
-                    Thread.sleep(2000);
+                    Thread.sleep(1500);
                     SplashScreen.hideSplash();
                     new MainWindow().setVisible(true);
                 }
